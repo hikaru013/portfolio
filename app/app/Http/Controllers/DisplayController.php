@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\DisplayController;
+use Auth;
 
 class DisplayController extends Controller
 {
     //home
     public function index(){
-        return view('home');
+        $class_id = Auth::user()->class_id;
+        
+        return view('home',[
+            // 'class_id'=>$class_id,
+        ]);
     }
 
     //商品一覧
@@ -29,7 +34,7 @@ class DisplayController extends Controller
 
     //ログイン画面
     public function login(){
-        return view('login');
+        return view('auth.login');
     }
 
 

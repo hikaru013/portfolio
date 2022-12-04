@@ -4,13 +4,19 @@
 @section('content')
 
     <main class="main">
+    <div class="user_id">
+    @if( Auth::check() )
+    <p>ログイン中のユーザーのclass_id：{{ Auth::user()->class_id }}</p>
+    <p>ログイン中のユーザー名：{{ Auth::user()->name }}
+    @endif
+</div>
         <div class="popular_products_box">
             <div class="title">
                 <div class="list_title"><span>人気商品一覧</span></div>
                 <div class="list_more"><span><a href="{{ route('products_list')}}">もっと見る</a></span></div>
             </div>
             
-            <div class="popular_products">
+            <a href=""><div class="popular_products">
                 <div class="popular_product_photo">
                 写真が入る
                 </div>
@@ -23,7 +29,7 @@
                         Tシャツ
                     </div>
                 </div>
-            </div>
+            </div></a>
         </div>
 
         <div class="popular_shop_box">

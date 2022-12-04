@@ -11,6 +11,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+   
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -27,7 +28,7 @@
     <style>app{width;100vw}</style>
  
 </head>
-
+@csrf
 <body>
 <div class="header">
     <div class="home">
@@ -47,10 +48,61 @@
     <a href="#" class="search_detail">詳細検索</a> 
     </div>
     </div>
-
-    <div class="login"> 
+    
+    @guest
+    <div id="login"> 
         <a href="{{ route('login')}}" class="btn btn-login">ログイン</a> 
     </div>
+    @endguest
+
+
+    <div id="navArea">
+        <nav>
+            <div class="inner">
+                <ul>
+                    <li><a href="#" id="logout" class="my-navbar-item">ログアウト
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        <script>
+                            document.getElementById('logout').addEventListener('click', function(event){
+                            event.preventDefault();
+                            document.getElementById('logout-form').submit();
+                            });
+                        </script>
+                    </a></li>
+
+                    <!-- @if ( {{ Auth::user()->class_id }} ===1) -->
+                    
+                    <li><a href="#">出品者用メニュー</a></li>
+                    @endif
+                    <li><a href="#">HOME</a></li>
+                    <li><a href="#">HOME</a></li>
+                    <li><a href="#">HOME</a></li>
+                    <li><a href="#">HOME</a></li>
+                </ul>
+            </div>
+        </nav>
+
+
+    <!-- <div class="toggle-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </div> -->
+
+    <div id="mask">
+
+    </div>
+</div>
+
+    @auth
+    <div id="toggle-btn"> 
+        <span class="btn btn-login"><a>マイページ</a></span>
+    </div>
+    @endauth
+    
 </div>
 
 @yield('content')
@@ -78,6 +130,6 @@
         </li>
     </ul>
 </div>
-        
+<script src="{{ asset('js/index.js') }}"></script>
 </body>
 </html>
