@@ -1,9 +1,14 @@
 @extends('layouts.layout')
+
 @section('content')
+
   <div class="container">
+
     <div class="row justify-content-center">
       <div class="col col-md-offset-3 col-md-6">
+
         <nav class="card mt-5">
+          
           <div class="card-header">会員登録</div>
           <div class="card-body">
             @if($errors->any())
@@ -15,11 +20,19 @@
             @endif
             <form action="{{ route('register') }}" method="POST">
               @csrf
+
               <div class="form-group">
                   <label for="class_id">用途</label>
                   <input type="radio" class="" id="class_id" name="class_id" value="1">購入</input>
-                  <input type="radio" class="" id="class_id" name="class_id" value="1">出品</input>
-                  <input type="radio" class="" id="class_id" name="class_id" value="1">管理者</input>
+                  <input type="radio" class="" id="class_id" name="class_id" value="2">出品</input>
+
+                @auth
+                @php $class_id=Auth::User()->class_id;@endphp
+                @if($class_id === 3)
+                  <input type="radio" class="" id="class_id" name="class_id" value="3">管理者</input>
+                @endif
+                @endauth
+
               </div>
 
               <div class="form-group">

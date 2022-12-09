@@ -11,7 +11,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-   
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -23,13 +22,15 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    <!-- 虫眼鏡マーク -->
     <script src="https://kit.fontawesome.com/b5f029821e.js" crossorigin="anonymous"></script>
 
     <style>app{width;100vw}</style>
- 
+
 </head>
 @csrf
 <body>
+    
 <div class="header">
     <div class="home">
             <a href="{{route('top')}}" class="btn btn-home">ホーム</a>
@@ -45,7 +46,7 @@
     </div>
     
     <div class="search_detail_frame">
-    <a href="#" class="search_detail">詳細検索</a> 
+    <a href="{{route('filter_search')}}" class="search_detail">詳細検索</a> 
     </div>
     </div>
     
@@ -55,11 +56,41 @@
     </div>
     @endguest
 
-
+    
     <div id="navArea">
-        <nav>
+        <nav class="navArea">
+            @auth
             <div class="inner">
                 <ul>
+                    
+                @auth 
+                    @php 
+                        $class_id=Auth::User()->class_id;
+                        $name=Auth::User()->name;
+                    @endphp
+                @endauth
+
+                    <li>Hello,{{$name}}</li>
+                    <!-- 購入者専用メニュー -->
+                    @if($class_id === 1)
+                    <li><a href="{{route ('ordered_lists')}}">購入した商品</a></li>
+                    @endif
+
+                    <!-- 出品者専用メニュー -->
+                    @if($class_id === 2)
+                    <li><a href="{{ route ('view_register_product')}}">出品</a></li>
+                    <li><a href="{{ route('products_list')}}">出品した商品</a></li>
+                    <li><a href="{{ route('orderd_by_lists')}}">購入された商品</a></li>
+                    @endif
+
+                    <!-- 管理者専用メニュー -->
+                    @if($class_id === 3)
+                    <li><a href="{{ route('admin_menu') }}">管理者メニュー</a></li>
+                    @endif                    
+
+                    <li><a href="{{route('view_user_info')}}">登録情報</a></li>
+                    <li><a href="{{route('likes_list')}}">いいねした商品/ショップ</a></li>
+
                     <li><a href="#" id="logout" class="my-navbar-item">ログアウト
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
@@ -71,17 +102,10 @@
                             });
                         </script>
                     </a></li>
-
-                    <!-- @if ( {{ Auth::user()->class_id }} ===1) -->
                     
-                    <li><a href="#">出品者用メニュー</a></li>
-                    @endif
-                    <li><a href="#">HOME</a></li>
-                    <li><a href="#">HOME</a></li>
-                    <li><a href="#">HOME</a></li>
-                    <li><a href="#">HOME</a></li>
                 </ul>
             </div>
+            @endauth
         </nav>
 
 
@@ -93,7 +117,6 @@
     </div> -->
 
     <div id="mask">
-
     </div>
 </div>
 
@@ -105,8 +128,9 @@
     
 </div>
 
+<main>
 @yield('content')
-
+</main>
 <div class="footer">
     <ul class="footer_content">
         <li class="footer_link1">
