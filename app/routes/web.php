@@ -26,7 +26,11 @@ route::get('/',[DisplayController::class, 'index'])->name('top');
 //商品一覧
 route::get('/products_list',[DisplayController::class,'products_list'])->name('products_list');
 //商品詳細
-route::get('product_detail',[DisplayController::class,'product_detail'])->name('product_detail');
+route::get('product_detail/{id}',[DisplayController::class,'product_detail'])->name('product_detail');
+
+//商品編集 表示/実行
+route::get('/edit_product/{id}',[RegistrationController::class,'view_edit_product'])->name('view_edit_product');
+Route::post('/edit_product/{id}',[RegistrationController::class, 'exe_edit_product'])->name('exe_edit_product');
 
 //検索
 

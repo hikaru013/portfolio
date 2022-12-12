@@ -25,8 +25,6 @@ class DisplayController extends Controller
         ->get();
         // dd($products);
 
-        
-
         return view('home',compact('default_img','products'));
     }
 
@@ -45,15 +43,25 @@ class DisplayController extends Controller
     }
 
     //商品詳細
-    public function product_detail(){
-        $file = new File;
-        $items = $file->where('id',3)->get();
+    public function product_detail($productId){
+        // dd($productid);
+        $file_table = new File;
 
-        $product_table = new Product;
-        $product = $product_table->where('id',1)->first();
+        $files = $file_table->where('product_id',$productId)->exists();
+        
+        if($files === true){
+            $file = $file_table->where("product_id",$productId)->first();
+        }else{
+            $file = $file_table->where('id',0)->first();
+        }
+        // dd($file);
 
-        return view('product_detail',compact('items','product'));
-    }
+        $product = product::find($productId);
+
+        return view('product_detail',
+                    ['product'=>$product,
+                        'file'=>$file]);
+        }
     
     // 詳細検索
     public function filter_search(){

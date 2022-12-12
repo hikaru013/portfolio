@@ -14,13 +14,12 @@ use App\File;
 
 class RegistrationController extends Controller
 {
-    //
         // 新規会員登録 表示
         public function create_account(){
             return view('auth.register');
         }
 
-        // 新規会員登録　実行
+    // 新規会員登録　実行
         public function create_account_form(Request $request){
             // dd($user);
     
@@ -37,35 +36,28 @@ class RegistrationController extends Controller
             return redirect('/');
         }
 
-        // パスワードリセット 表示
+    // パスワードリセット 表示
         public function password_reset(){
             return view('password_reset');
         }
 
-        // ログアウト実行
+    // ログアウト実行
         public function logout(){
             auth::logout();
             return redirect('/home');
         }
 
-        // 出品表示
+    // 出品表示
         public function view_register_product(){
             return view('register_product');
         }
 
-        // 出品　実行
+    // 出品　実行
         public function exe_register_product(request $request){
             $dir = 'product_img';
             $file =  $request->file('file');
             
-            if ($request->file('file') == null) {
-                $file = "";
-                $file_name = "";
-            }else{
-                $file_name = $request->file('file')->getClientOriginalName();
-               $file = $request->file('file')->storeAs('public/'.$dir,$file_name);  
-               
-            }
+    
             
 
             $product = new Product;
@@ -85,19 +77,89 @@ class RegistrationController extends Controller
             $product->detail = $request->detail;
 
             $product->save();
+            if ($request->file('file') == null) {
+                $file = "";
+                $file_name = "";
+               
+            }else{
+                $file_name = $request->file('file')->getClientOriginalName();
+               $file = $request->file('file')->storeAs('public/'.$dir,$file_name);  
+               
+               $product_id=$product['id'];
+               $file->product_id = $product_id;
+               // $request->file('file')->storeAs('public/', $dir ,$file_name);
+               $file->name = $file_name;
+               $file->path = 'storage/'.$dir.'/'.$file_name;
+               $file->insert_time = carbon::now();
+               $file->save();
+            }
+       
+            return redirect('/');
             
-            $product_id=$product['id'];
+        }
+
+    //出品編集 表示
+        public function view_edit_product($productId){
+            $file_table = new File;
+            $files = $file_table->where('product_id',$productId)->exists();
+            
+            if($files === true){
+                $file = $file_table->where("product_id",$productId)->first();
+            }else{
+                $file = $file_table->where('id',0)->first();
+            }
+            // dd($file);
+
+            $product = product::find($productId);
+            // dd($product);
+                return view('edit_product',
+                ['product'=>$product,
+                'file'=>$file]);
+            }
+
+    //商品編集 実行
+        public function exe_edit_product($productId,request $request){
+            $dir = 'product_img';
+            $file =  $request->file('file');
+            
+            if ($request->file('file') == null) {
+                $file = "";
+                $file_name = "";
+            }else{
+                $file_name = $request->file('file')->getClientOriginalName();
+                $file = $request->file('file')->storeAs('public/'.$dir,$file_name);  
+                $product_id=$product['id'];
             $file->product_id = $product_id;
             // $request->file('file')->storeAs('public/', $dir ,$file_name);
             $file->name = $file_name;
             $file->path = 'storage/'.$dir.'/'.$file_name;
             $file->insert_time = carbon::now();
             $file->save();
-            return redirect('/');
+            }
             
+
+            $product = new Product;
+            $product = $product->find($productId);
+            $file = New File;
+
+            $user_id = Auth::User()->id;
+
+            // $file->product_id = $id;
+            $product->name = $request->name;
+            $product->price = $request->price;
+            $product->stock = $request->stock;
+            $product->category = $request->category;
+            $product->size = $request->size;
+            $product->sex = $request->sex;
+            $product->detail = $request->detail;
+
+            $product->save();
+            
+            
+            return redirect('/');
         }
 
-        // ユーザー情報編集 表示
+            // ユーザー情報編集 表示
         public function view_edit_user(){
             $user = Auth::user();
             return view('edit_user_info',[
