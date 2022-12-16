@@ -17,6 +17,7 @@ class Product extends Model
     public function file(){
         return $this->hasMany('App\File');
     }
+    
 
     public function orderd_item(){
         return $this->hasMany('App\Orderd_item');

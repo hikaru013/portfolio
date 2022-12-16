@@ -25,12 +25,24 @@ route::get('/',[DisplayController::class, 'index'])->name('top');
 
 //商品一覧
 route::get('/products_list',[DisplayController::class,'products_list'])->name('products_list');
-//商品詳細
-route::get('product_detail/{id}',[DisplayController::class,'product_detail'])->name('product_detail');
+
+//商品詳細 /カートに追加
+route::get('/product_detail/{id}',[DisplayController::class,'product_detail'])->name('product_detail');
+route::post('/product_detail/{id}',[RegistrationController::class,'addCart'])->name('addCart');
+
+// いいねボタン
+// Route::get('/product_detail/{id}',[LikeController::class,'product_like']);
+// Route::get('/product_detail/{id}', [LikeController::class,'product_unlike']);
+
 
 //商品編集 表示/実行
 route::get('/edit_product/{id}',[RegistrationController::class,'view_edit_product'])->name('view_edit_product');
 Route::post('/edit_product/{id}',[RegistrationController::class, 'exe_edit_product'])->name('exe_edit_product');
+
+//カート画面表示
+route::get('/view_cart',[RegistrationController::class,'view_cart'])->name('view_cart');
+
+
 
 //検索
 
@@ -40,7 +52,10 @@ route::get('filter_search',[DisplayController::class,'filter_search'])->name('fi
 //ショップ一覧
 route::get('/shops_list',[DisplayController::class,'shops_list'])->name('shops_list');
 //ショップ詳細
-route::get('shop_detail',[DisplayController::class,'shop_detail'])->name('shop_detail');
+route::get('shop_detail/{id}',[DisplayController::class,'shop_detail'])->name('shop_detail');
+
+
+
 
 //購入した商品一覧
 route::get('ordered_lists',[DisplayController::class,'ordered_lists'])->name('ordered_lists');

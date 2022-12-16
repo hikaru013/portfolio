@@ -19,14 +19,14 @@
             <div class="container">
 
                 <form action="{{ route('exe_register_product' )}}" method="post" enctype="multipart/form-data">
-                @csrf
+                    @csrf
                     <!-- プレビュー -->
-                    <div class="imagePreview"></div>
+                    <div class="imagePreview" style="height:250px"></div>
                     
                     <div class="input-group">
                         <label class="input-group-btn">
                             <span class="btn btn-primary">
-                                Choose File<input type="file" name="file"  class="uploadFile">
+                                Choose File<input type="file" style="display:none" name="file" class="uploadFile">
                             </span>
                         </label>
                         <input type="text" class="form-control" readonly="">
@@ -99,7 +99,7 @@
               </div>
 
               <div class="form-group">
-                <label for="size">性別</label>
+                <label for="size">サイズ</label>
                 <input type="radio" class="" id="size" name="size" value="S">S</input>
                 <input type="radio" class="" id="size" name="size" value="M">M</input>
                 <input type="radio" class="" id="size" name="size" value="L">L</input>
@@ -129,7 +129,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <!-- なくても画像プレビュー動作する -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-                </form>
+</form>
 </main>
 </html>
 @endsection

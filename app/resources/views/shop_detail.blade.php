@@ -3,12 +3,13 @@
 <div class="container">
     <div class="row">
         <div class="card">
-            商品画像
+            <img src="{{asset($user_img->path)}}" style="width:250px;height:250px;">
         </div>
         <div class="col">
-            <div class="card">出品者名</div>
+            <div class="card">{{$users->name}}</div>
+
+    
             <div class="card">いいね</div>
-            <div class="card">出品者の説明</div>
         </div>
     </div>
 
@@ -17,11 +18,22 @@
     </div>
 
     <div class="row">
-        <div class="card">
-            <img src ="" class="card-img-top">
-            <span class="fs-5">商品名</span>
-            <span class="fs-5">値段</span>
-        </div>
+            @foreach($products as $product)
+            <a href="{{route('product_detail',['id' => $product->id])}}" class="col-lg-2">
+
+            <div class="card">
+                @if(empty($product->file_id))
+                    <img src ="{{asset($user_img->path)}}" style="height:150px" class="card-img">
+                @else
+                <img src ="{{asset($product->file_path)}}" style="height:150px" class="card-img">
+                @endif
+                <div class="card-body">
+                    <p class="card-tile">{{$product->name}}</p>
+                    <p class="card-text">¥{{$product->price}}</p>
+                </div>
+            </div>
+            </a>
+            @endforeach
     </div>
 </div>
 

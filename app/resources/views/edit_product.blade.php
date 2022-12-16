@@ -21,16 +21,17 @@
                 <form action="{{ route('exe_edit_product',['id' => $product->id] )}}" method="post" enctype="multipart/form-data">
                 @csrf
                     <!-- プレビュー -->
-                    <div class="imagePreview"><img src="{{asset($file->path)}}"></div>
+                    <div class="imagePreview" style="height:250px"><img style="height:100%; width:100%;"src="{{asset($file->path)}}"></div>
                     
                     <div class="input-group">
                         <label class="input-group-btn">
                             <span class="btn btn-primary">
-                                Choose File<input type="file" name="file"  class="uploadFile">
+                                Choose File<input type="file" style="display:none" name="file"  class="uploadFile">
                             </span>
                         </label>
                         <input type="text" class="form-control" readonly="">
                     </div>
+                    
 
                     <div class="d-inline-flex">
 

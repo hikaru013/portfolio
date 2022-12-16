@@ -14,7 +14,7 @@ use App\File;
 
 class RegistrationController extends Controller
 {
-        // 新規会員登録 表示
+    // 新規会員登録 表示
         public function create_account(){
             return view('auth.register');
         }
@@ -57,11 +57,8 @@ class RegistrationController extends Controller
             $dir = 'product_img';
             $file =  $request->file('file');
             
-    
-            
-
             $product = new Product;
-            $file = New File;
+            $file_table = New File;
 
             $user_id = Auth::User()->id;
 
@@ -77,21 +74,26 @@ class RegistrationController extends Controller
             $product->detail = $request->detail;
 
             $product->save();
+
             if ($request->file('file') == null) {
                 $file = "";
                 $file_name = "";
+                echo "error";
                
             }else{
                 $file_name = $request->file('file')->getClientOriginalName();
-               $file = $request->file('file')->storeAs('public/'.$dir,$file_name);  
+                
+                //画像を保存するだけの処理
+               $request->file('file')->storeAs('public/'.$dir,$file_name);  
                
                $product_id=$product['id'];
-               $file->product_id = $product_id;
-               // $request->file('file')->storeAs('public/', $dir ,$file_name);
-               $file->name = $file_name;
-               $file->path = 'storage/'.$dir.'/'.$file_name;
-               $file->insert_time = carbon::now();
-               $file->save();
+               
+               $file_table->name = $file_name;
+               $file_table->product_id = $product->id;
+               
+               $file_table->path = 'storage/'.$dir.'/'.$file_name;
+               $file_table->insert_time = carbon::now();
+               $file_table->save();
             }
        
             return redirect('/');
@@ -155,11 +157,10 @@ class RegistrationController extends Controller
 
             $product->save();
             
-            
             return redirect('/');
         }
 
-            // ユーザー情報編集 表示
+    // ユーザー情報編集 表示
         public function view_edit_user(){
             $user = Auth::user();
             return view('edit_user_info',[
@@ -167,7 +168,7 @@ class RegistrationController extends Controller
             ]);
         }
 
-        // ユーザー情報編集 実行
+    // ユーザー情報編集 実行
         public function exe_edit_user(Request $request){
             $user_id = Auth::user()->id;
             $user = new User;
@@ -183,4 +184,38 @@ class RegistrationController extends Controller
             return redirect("/user_info");
         }
     
-}
+        // カートに追加する
+        public function addCart(request $request){
+            $SessionUserId = $request->user_id;
+            $SessionProductId = $request->product_id;
+            $SessionProductName = $request->name;
+            $SessionProductPrice = $request->price;
+            $SessionProductSize = $request->size;
+            $SessionProductQuantity = $request->quantity;
+
+            $SessionData = array();
+            $SessionData = compact('SessionUserId','SessionProductId','SessionProductName','SessionProductPrice','SessionProductSize','SessionProductQuantity');
+            
+            $request->session()->push('session_data', $SessionData);
+            return redirect('view_cart');
+        }
+
+        //カート内確認
+        public function view_cart(){
+        // $SessionData =session()->get('session_data');
+        //     // dd($SessionData);
+        // //セッションデータのなかのそれぞれのデータを抽出
+        // $SessionProductId = array_column($SessionData, 'SessionProductId');
+        // $SessionUserId = array_column($SessionData, 'SessionUserId');
+        // $SessionProductName = array_column($SessionData, 'SessionProductName');
+        // $SessionProductPrice = array_column($SessionData, 'SessionProductPrice');
+        // $SessionProductSize = array_column($SessionData, 'SessionProductSize');
+        // $SessionProductQuantity = array_column($SessionData, 'SessionProductQuantity');
+        // // dd($SessionProductId);
+            return view('view_cart'
+            // ,compact('SessionProductId','SessionUserId','SessionProductName','SessionProductPrice','SessionProductSize','SessionProductQuantity')
+        );
+        }
+
+
+    }

@@ -512,9 +512,6 @@ nav .inner ul li a:hover{
         padding-bottom:30px;
     }
 
-    .card-img{
-        height:240px;
-    }
     
     .card_img_top{
         padding:2px;
@@ -607,4 +604,38 @@ nav .inner ul li a:hover{
         position: absolute;
         right: 10px;
         top: 8px;
+    }
+
+    /* 登録情報編集フォーム */
+    #payment,
+    .card-body label{
+        font-size:12px;
+    }
+
+    .card{
+    white-space: nowrap;
+    margin-top:20px;
+    }
+
+    .card p{
+        text-overflow: ellipsis;
+        overflow:hidden;
+    }
+
+    .ABCD{
+        top: 230px;
+        right: 160px;
+        position:fixed;
+
+    }
+    
+    .EFG{
+        text-align: right;
+        width:85%;
+        border-top:1px solid;
+        margin-top:10px;
+    }
+
+    .cart_total_price{
+        padding:10px 30px 0 0;
     }

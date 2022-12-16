@@ -49,6 +49,15 @@ class User extends Authenticatable
     public function products(){
         return $this->hasMany('App\Product');
     }
+
+    public function file(){
+        return $this->hasOne('App\File');
+    }
+
+    public function product_likes(){
+        return $this->hasMany('App\Product_likes');
+    }
+    
 }
 
     

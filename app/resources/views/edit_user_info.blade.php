@@ -46,10 +46,14 @@
 
           <div class="form-group">
               <label for="payment">支払い方法</label>
-              <input type="radio" class="" id="payment" name="payment" value="クレジットカード">クレジットカード</input>
-              <input type="radio" class="" id="payment" name="payment" value="代金引換">代金引換</input>
-              <input type="radio" class="" id="payment" name="payment" value="コンビニ支払い">コンビニ支払い</input>
-              <input type="radio" class="" id="payment" name="payment" value="後で追加する">後で追加する</input>
+              <input type="radio" class="" id="payment" name="payment" value="クレジットカード">
+                <label class="payment">クレジットカード</input></label>
+              <input type="radio" class="" id="payment" name="payment" value="代金引換">
+                <label class="payment">代金引換</input></label>
+              <input type="radio" class="" id="payment" name="payment" value="コンビニ支払い"></input>
+                <label class="payment">コンビニ支払い</label>
+              <input type="radio" class="" id="payment" name="payment" value="後で追加する"></input>
+                <label class="payment">後で追加する</label>
 
               
           </div>
