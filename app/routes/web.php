@@ -41,27 +41,28 @@ Route::post('/edit_product/{id}',[RegistrationController::class, 'exe_edit_produ
 
 //カート画面表示
 route::get('/view_cart',[RegistrationController::class,'view_cart'])->name('view_cart');
-
+// カート内商品削除
+route::post('/del_cart',[RegistrationController::class,'del_cart'])->name('del_cart');
 
 
 //検索
 
 //詳細検索
-route::get('filter_search',[DisplayController::class,'filter_search'])->name('filter_search');
+route::get('/filter_search',[DisplayController::class,'filter_search'])->name('filter_search');
 
 //ショップ一覧
 route::get('/shops_list',[DisplayController::class,'shops_list'])->name('shops_list');
 //ショップ詳細
-route::get('shop_detail/{id}',[DisplayController::class,'shop_detail'])->name('shop_detail');
+route::get('/shop_detail/{id}',[DisplayController::class,'shop_detail'])->name('shop_detail');
 
 
 
 
 //購入した商品一覧
-route::get('ordered_lists',[DisplayController::class,'ordered_lists'])->name('ordered_lists');
+route::get('/ordered_lists',[DisplayController::class,'ordered_lists'])->name('ordered_lists');
 
 //購入された商品一覧
-route::get('orderd_by',[DisplayController::class,'orderd_by_lists'])->name('orderd_by_lists');
+route::get('/orderd_by',[DisplayController::class,'orderd_by_lists'])->name('orderd_by_lists');
 
 //いいね一覧
 route::get('/likes_list',[DisplayController::class,'likes_list'])->name('likes_list');
@@ -74,7 +75,7 @@ route::get('/create_account',[RegistrationController::class,'create_account'])->
 Route::post('/create_account',[RegistrationController::class, 'create_account'])->name('create_account_form');
 
 //登録情報 閲覧
-route::get('user_info',[DisplayController::class,'view_user_info'])->name('view_user_info');
+route::get('/user_info',[DisplayController::class,'view_user_info'])->name('view_user_info');
 
 //登録情報 編集画面
 route::get('view_edit_user',[RegistrationController::class,'view_edit_user'])->name('view_edit_user');
@@ -92,7 +93,7 @@ Route::get('/register_product',[RegistrationController::class, 'view_register_pr
 Route::post('/register_product',[RegistrationController::class, 'exe_register_product'])->name('exe_register_product');
 
 // 管理者メニュー
-route::get('admin_menu',[DisplayController::class,'admin_menu'])->name('admin_menu');
+route::get('/admin_menu',[DisplayController::class,'admin_menu'])->name('admin_menu');
 
 //ユーザー一覧
-route::get('users_list',[DisplayController::class,'users_list'])->name('users_list');
+route::get('/users_list',[DisplayController::class,'users_list'])->name('users_list');

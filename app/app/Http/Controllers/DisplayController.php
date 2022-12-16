@@ -29,21 +29,31 @@ class DisplayController extends Controller
         // ショップ一覧取得
         $users = $user_table->where('class_id','2')->with('file')->get();
         // dd($users);
+        dd($products,$users);
 
         return view('home',compact('default_img','products','users'));
     }
 
     //商品一覧
     public function products_list(){
-        $product = new Product;
-        $products = $product->all();
 
-        $file = new File;
-        $files = $file->all();
+        $file_table = new File;
+        $user_table = new User;
+        $product_table = new Product;
+        $default_img = $file_table->where('id',0)->first('path');
         
+        // 商品一覧取得
+        $products = $product_table  // 主となるテーブル名
+        ->select('products.id', 'products.name','products.price', 'files.id as file_id',
+                 'files.name as files_name','files.path as file_path')
+        ->leftjoin('files', 'files.product_id', '=', 'products.id')  // 第一引数に結合するテーブル名、第二引数に主テーブルの結合キー、第四引数に結合するテーブルの結合キーを記述
+        ->get();
+
+        $products = $products->sortBy('products.id')->paginate(5);
+
         return view('products_list',[
             'products'=>$products,
-            'files'=>$files,
+            'default_img'=>$default_img,
         ]);
     }
 

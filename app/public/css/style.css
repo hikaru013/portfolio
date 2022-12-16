@@ -379,6 +379,13 @@ nav .inner ul li{
     margin:0;
     border-bottom: 1px solid #333;
 }
+.navp{
+    text-align: center;
+    padding:10px;
+    margin:0;
+    font-weight:bold;
+
+}
 
 nav .inner ul li a{
     display:block;
@@ -418,6 +425,7 @@ nav .inner ul li a:hover{
 #mask{
     display:none;
     transition:all 0.5s;
+    z-index:1;
 }
 
 .open nav{
@@ -622,20 +630,52 @@ nav .inner ul li a:hover{
         overflow:hidden;
     }
 
+    /* カート画面 */
+
+    .cart_frame{
+        width: 85%;
+        border-bottom: 1px solid rgba(0,0,0,.125);
+        display:flex;
+        margin-bottom: 10px;
+        padding-bottom:10px;
+    }
     .ABCD{
         top: 230px;
-        right: 160px;
+        right: 150px;
         position:fixed;
+        border: 1px solid rgba(0,0,0,.125);
+        padding:20px;
+        background-color: rgba(115, 147, 157,0.5);
+        border-radius: 1.25rem;
+    }
 
+    .ABCD p{
+        font-size:20px;
+        font-weight: 600;
+    }
+
+    .ABCD .btn-secondary{
+        position:static;
     }
     
     .EFG{
         text-align: right;
         width:85%;
-        border-top:1px solid;
         margin-top:10px;
+    }
+
+    .EFG .btn-secondary{
+        position:static;
     }
 
     .cart_total_price{
         padding:10px 30px 0 0;
+    }
+
+    .col-lg-3 p{
+        white-space: nowrap;
+    }
+
+    .col-lg-3 .btn-outline-secondary{
+        position:static;
     }

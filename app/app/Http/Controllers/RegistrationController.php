@@ -186,36 +186,57 @@ class RegistrationController extends Controller
     
         // カートに追加する
         public function addCart(request $request){
+            $product_table = new Product;
+            $file_table = new File;
+        
             $SessionUserId = $request->user_id;
             $SessionProductId = $request->product_id;
             $SessionProductName = $request->name;
             $SessionProductPrice = $request->price;
             $SessionProductSize = $request->size;
             $SessionProductQuantity = $request->quantity;
+            $SessionShopName = $product_table->where('id',$SessionProductId)->with('user')->first();
+            $SessionProductImg = $file_table->where('product_id',$SessionProductId)->first();
+            
 
             $SessionData = array();
-            $SessionData = compact('SessionUserId','SessionProductId','SessionProductName','SessionProductPrice','SessionProductSize','SessionProductQuantity');
-            
+            $SessionData = compact('SessionUserId','SessionProductImg','SessionShopName','SessionProductId','SessionProductName','SessionProductPrice','SessionProductSize','SessionProductQuantity');
+            // dd($SessionProductImg);
             $request->session()->push('session_data', $SessionData);
-            return redirect('view_cart');
+            // session()->flush();
+            return redirect("view_cart");
         }
 
         //カート内確認
         public function view_cart(){
-        // $SessionData =session()->get('session_data');
-        //     // dd($SessionData);
-        // //セッションデータのなかのそれぞれのデータを抽出
-        // $SessionProductId = array_column($SessionData, 'SessionProductId');
-        // $SessionUserId = array_column($SessionData, 'SessionUserId');
-        // $SessionProductName = array_column($SessionData, 'SessionProductName');
-        // $SessionProductPrice = array_column($SessionData, 'SessionProductPrice');
-        // $SessionProductSize = array_column($SessionData, 'SessionProductSize');
-        // $SessionProductQuantity = array_column($SessionData, 'SessionProductQuantity');
-        // // dd($SessionProductId);
+
+        $file_table = new File;
+        $defaultimg = $file_table->where('id',0)->first();
+        // dd($defaultimg);
+        $datas =session()->get('session_data');
+        $total_price = array_sum(array_column($datas, 'SessionProductPrice'));
+        $shopname = array_column($datas,'SessionShopName');
+        $productimg = array_column($datas,'SessionProductImg');
+    
             return view('view_cart'
-            // ,compact('SessionProductId','SessionUserId','SessionProductName','SessionProductPrice','SessionProductSize','SessionProductQuantity')
+            ,compact('datas','total_price','shopname','productimg','defaultimg')
         );
         }
 
+        public function del_cart(request $request){
+            // dd($request);
+            $key = $request->delete_number;
+            $session = session()->get('session_data');
+            // dd($session);
+
+            unset($session[$key]);
+            $data = array_values($session);
+            // dd($data);
+            $session = session()->push('session_data', $data);
+            dd($session);
+            // $datas->forget('session_data');
+            
+            return redirect('view_cart',compact('data'));
+        }
 
     }

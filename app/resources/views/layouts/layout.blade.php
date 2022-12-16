@@ -70,7 +70,7 @@
                     @endphp
                 @endauth
 
-                    <li>Hello,{{$name}}</li>
+                    <li><p class="navp">Hello,{{$name}}</p></li>
                     <!-- 購入者専用メニュー -->
                     @if($class_id === 1)
                     <li><a href="{{route ('ordered_lists')}}">購入した商品</a></li>
@@ -87,7 +87,7 @@
                     @if($class_id === 3)
                     <li><a href="{{ route('admin_menu') }}">管理者メニュー</a></li>
                     @endif                    
-
+                    <li><a href="{{route('view_cart')}}">カート内商品</a></li>
                     <li><a href="{{route('view_user_info')}}">登録情報</a></li>
                     <li><a href="{{route('likes_list')}}">いいねした商品/ショップ</a></li>
 
