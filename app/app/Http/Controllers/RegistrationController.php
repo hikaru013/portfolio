@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use App\User;
 use App\Product;
 use App\File;
+use App\Orderd_item;
 
 class RegistrationController extends Controller
 {
@@ -47,18 +48,19 @@ class RegistrationController extends Controller
             return redirect('/home');
         }
 
-    // 出品表示
-        public function view_register_product(){
-            return view('register_product');
-        }
+    // 出品 表示
+        // public function view_register_product(){
+        //     return view('register_product');
+        // }
 
     // 出品　実行
         public function exe_register_product(request $request){
+            dd($request->all());
             $dir = 'product_img';
-            $file =  $request->file('file');
-            
+            $files =  $request->file('file');
+          
             $product = new Product;
-            $file_table = New File;
+            
 
             $user_id = Auth::User()->id;
 
@@ -74,27 +76,29 @@ class RegistrationController extends Controller
             $product->detail = $request->detail;
 
             $product->save();
-
-            if ($request->file('file') == null) {
-                $file = "";
-                $file_name = "";
-                echo "error";
-               
-            }else{
-                $file_name = $request->file('file')->getClientOriginalName();
+            foreach($files as $file){
+                $file_table = New File;
+                if ($request->file('file') == null) {
+                    $files = "";
+                    $file_name = "";
+                    echo "error";
                 
-                //画像を保存するだけの処理
-               $request->file('file')->storeAs('public/'.$dir,$file_name);  
-               
-               $product_id=$product['id'];
-               
-               $file_table->name = $file_name;
-               $file_table->product_id = $product->id;
-               
-               $file_table->path = 'storage/'.$dir.'/'.$file_name;
-               $file_table->insert_time = carbon::now();
-               $file_table->save();
-            }
+                }else{
+                    $file_name = $file->getClientOriginalName();
+                    
+                    //画像を保存するだけの処理
+                    $file->storeAs('public/'.$dir,$file_name);  
+                    
+                    $product_id=$product->id;
+                    
+                    $file_table->name = $file_name;
+                    $file_table->product_id = $product_id;
+                    
+                    $file_table->path = 'storage/'.$dir.'/'.$file_name;
+                    $file_table->insert_time = carbon::now();
+                    $file_table->save();
+                };
+            };
        
             return redirect('/');
             
@@ -121,8 +125,10 @@ class RegistrationController extends Controller
 
     //商品編集 実行
         public function exe_edit_product($productId,request $request){
+            dd($request->all());
+            $file_table = New File;
             $dir = 'product_img';
-            $file =  $request->file('file');
+            $file =  $request->file('img');
             
             if ($request->file('file') == null) {
                 $file = "";
@@ -130,19 +136,19 @@ class RegistrationController extends Controller
             }else{
                 $file_name = $request->file('file')->getClientOriginalName();
                 $file = $request->file('file')->storeAs('public/'.$dir,$file_name);  
-                $product_id=$product['id'];
-            $file->product_id = $product_id;
+
+            $file_table->product_id = $productId;
             // $request->file('file')->storeAs('public/', $dir ,$file_name);
-            $file->name = $file_name;
-            $file->path = 'storage/'.$dir.'/'.$file_name;
-            $file->insert_time = carbon::now();
-            $file->save();
+            $file_table->name = $file_name;
+            $file_table->path = 'storage/'.$dir.'/'.$file_name;
+            $file_table->insert_time = carbon::now();
+            $file_table->save();
             }
             
 
             $product = new Product;
             $product = $product->find($productId);
-            $file = New File;
+            
 
             $user_id = Auth::User()->id;
 
@@ -160,9 +166,18 @@ class RegistrationController extends Controller
             return redirect('/');
         }
 
+    //商品画像 削除
+        public function delete_img($productId){
+            
+            $file = new File;
+            $file->where("product_id",$productId)->delete();
+
+            return back();
+        }
     // ユーザー情報編集 表示
         public function view_edit_user(){
             $user = Auth::user();
+
             return view('edit_user_info',[
                 'user' => $user,
             ]);
@@ -170,10 +185,39 @@ class RegistrationController extends Controller
 
     // ユーザー情報編集 実行
         public function exe_edit_user(Request $request){
+
+            // Filesテーブルへの保存
             $user_id = Auth::user()->id;
+            $file_table = New File;
+            $dir = 'product_img';
+            $file =  $request->file('file');
+
+            if ($request->file('file') == null) {
+                $file = "";
+                $file_name = "";
+                // dd($request->all());
+            }else{
+                $file_name = $request->file('file')->getClientOriginalName();
+
+                //画像を保存するだけの処理
+               $request->file('file')->storeAs('public/'.$dir,$file_name);  
+               
+               $file_table->name = $file_name;
+               $file_table->user_id = $user_id;
+               
+               $file_table->path = 'storage/'.$dir.'/'.$file_name;
+               $file_table->insert_time = carbon::now();
+               $file_table->save();
+              
+            }
+
+            // Usersテーブルへの保存
+            
             $user = new User;
             $record = $user->find($user_id);
-
+  
+            $file_id = $file_table->id;
+            $record->file_id = $file_id;
             $record->name = $request->name;
             $record->birth = $request->birth;
             $record->tel = $request->tel;
@@ -181,14 +225,17 @@ class RegistrationController extends Controller
             $record->payment = $request->payment;
 
             $record->save();
+
             return redirect("/user_info");
         }
     
-        // カートに追加する
+    // カートに追加する
         public function addCart(request $request){
             $product_table = new Product;
             $file_table = new File;
-        
+            
+            $product_id = $request->product_id;
+            
             $SessionUserId = $request->user_id;
             $SessionProductId = $request->product_id;
             $SessionProductName = $request->name;
@@ -207,36 +254,74 @@ class RegistrationController extends Controller
             return redirect("view_cart");
         }
 
-        //カート内確認
+    //カート内確認
         public function view_cart(){
-
+        
         $file_table = new File;
         $defaultimg = $file_table->where('id',0)->first();
         // dd($defaultimg);
         $datas =session()->get('session_data');
+        // dd($datas);
+        if (!empty($datas)){
         $total_price = array_sum(array_column($datas, 'SessionProductPrice'));
         $shopname = array_column($datas,'SessionShopName');
         $productimg = array_column($datas,'SessionProductImg');
-    
+        }else{
+            $total_price="";
+            $shopname="";
+            $productimg="";
+        }
+        //  session()->flush('session_data');
+        
             return view('view_cart'
             ,compact('datas','total_price','shopname','productimg','defaultimg')
         );
         }
 
-        public function del_cart(request $request){
-            // dd($request);
-            $key = $request->delete_number;
-            $session = session()->get('session_data');
-            // dd($session);
+    //購入
+        public function exe_buy(){
+            $datas = session()->get('session_data');
+           foreach($datas as $data =>$details){
 
-            unset($session[$key]);
-            $data = array_values($session);
-            // dd($data);
-            $session = session()->push('session_data', $data);
-            dd($session);
-            // $datas->forget('session_data');
-            
-            return redirect('view_cart',compact('data'));
+            //$data=0,1,2... $details=$dataの中身
+            $product_id = $details['SessionProductId'];
+            $price = $details['SessionProductPrice'];
+            $quantity = $details['SessionProductQuantity'];
+            $size = $details['SessionProductSize'];
+            $orderd_at = carbon::now();
+
+            $orderd = new Orderd_item;
+            $orderd->user_id = Auth::user()->id;
+            $orderd->product_id = $product_id;
+            $orderd->price = $price;
+            $orderd->quantity = $quantity;
+            $orderd->size = $size;
+            $orderd->orderd_at = $orderd_at;
+
+            // 在庫を減らす
+            $product_stock = product::find($product_id)->decrement('stock',$quantity);
+        
+            $orderd->save();
+           }
+               foreach($details as $detail){
+           }
+            session()->forget('session_data');
+            return redirect('/');
         }
 
+    // カート削除
+        public function del_cart(request $request){
+            $key = $request->delete_number;
+            $session = session()->get('session_data');
+            session()->forget('$key');
+            
+            unset($session[$key]);
+            $data = array_values($session);
+            $session = session()->put('session_data',$data);
+
+            // dd($data);
+            
+            return redirect('view_cart');
+        }
+//end
     }

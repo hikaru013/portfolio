@@ -26,6 +26,10 @@
     <script src="https://kit.fontawesome.com/b5f029821e.js" crossorigin="anonymous"></script>
 
     <style>app{width;100vw}</style>
+    <!-- lightbox -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
 
 </head>
 @csrf
@@ -36,18 +40,19 @@
             <a href="{{route('top')}}" class="btn btn-home">ホーム</a>
     </div>
 
+    <!-- 検索フォーム -->
     <div class="search_frame">
-    <div class="search">
-        <form action="自分のサイトURL" method="get">
-        <input id="sbox2"  id="s" name="s" type="text" placeholder="フリーワードを入力"/>
-        <button type="submit" id="sbtn2"><i class="fas fa-search"></i></button>
-        </form>
-       
-    </div>
-    
-    <div class="search_detail_frame">
-    <a href="{{route('filter_search')}}" class="search_detail">詳細検索</a> 
-    </div>
+        <div class="search">
+            <form action="{{ route('search') }}" method="get">
+                <input type="text" name="search" id="sbox2" value="{{request('search')}}" placeholder="フリーワードを入力"/>
+                <button type="submit" id="sbtn2"><i class="fas fa-search"></i></button>
+            </form>
+        
+        </div>
+        
+        <div class="search_detail_frame">
+        <a href="{{route('filter_search')}}" class="search_detail">詳細検索</a> 
+        </div>
     </div>
     
     @guest
@@ -78,8 +83,8 @@
 
                     <!-- 出品者専用メニュー -->
                     @if($class_id === 2)
-                    <li><a href="{{ route ('view_register_product')}}">出品</a></li>
-                    <li><a href="{{ route('products_list')}}">出品した商品</a></li>
+                    <li><a href="{{ route ('product.create')}}">出品</a></li>
+                    <li><a href="{{ route('product.index')}}">出品した商品</a></li>
                     <li><a href="{{ route('orderd_by_lists')}}">購入された商品</a></li>
                     @endif
 
@@ -142,7 +147,7 @@
         </li>
 
         <li class="footer_link">
-            <a href="{{ route('products_list')}}" class="footer_text">商品一覧</a>
+            <a href="{{ route('product.index')}}" class="footer_text">商品一覧</a>
         </li>
 
         <li class="footer_link">
@@ -154,6 +159,8 @@
         </li>
     </ul>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="{{ asset('js/index.js') }}"></script>
 </body>
 </html>

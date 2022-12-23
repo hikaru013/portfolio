@@ -24,7 +24,7 @@
             </div>
 
             <div class="forgot_password">
-                <a href="{{ route('password_reset') }}">パスワードリセット</a>
+                <a href="{{ route('password.request') }}">パスワードリセット</a>
             </div>
         </div>
 </body>

@@ -12,14 +12,14 @@
     <!-- 商品 -->
     <div class="title">
         <div class="list_title"><span>人気商品一覧</span></div>
-        <div class="list_more"><span><a href="{{ route('products_list')}}">もっと見る</a></span></div>
+        <div class="list_more"><span><a href="{{ route('product.index')}}">もっと見る</a></span></div>
     </div>
     <div class="row">
-        @foreach ($products as $product)
-        @if($loop->index === 4)
-        @php break; @endphp
-        @endif
-        <a href="{{ route('product_detail',['id' => $product->id]) }}" class="col-lg-3 col-md-3">
+        @foreach ($products->unique('id') as $product)
+            @if($loop->index === 8)
+            @php break; @endphp
+            @endif
+        <a href="{{ route('product.show',['product' => $product->id]) }}" class="col-lg-3 col-md-3">
             <div class="card">
 
                 @if(empty($product->file_id))
@@ -27,6 +27,7 @@
                 @else
                 <img src="{{ $product->file_path}}" style="height:250px" class="card-img">
                 @endif
+            
 
                 <div class="card-body">
                     <p class="card-title">{{ $product->name }}</p>
@@ -45,10 +46,9 @@
 
     <div class="row">
         @foreach ($users as $user)
-            @if($loop->index === 4)
+            @if($loop->index === 8)
             @php break; @endphp
             @endif
-        <!-- <a href="{{ route('product_detail',['id' => $product->id]) }}" class="col-lg-3 col-md-3"> -->
         <a href="{{route('shop_detail',['id' => $user->id]) }}" class="col-lg-3 col-md-3">
             <div class="card">
 
@@ -66,26 +66,35 @@
         @endforeach
     </div>
 
-
-        <div class="likes">
+    @auth
+        <div class="likeed_products">
             <div class="title">
                 <div class="list_title"><span>いいね一覧</span></div>
                 <div class="list_more"><span><a href="{{ route('likes_list')}}">もっと見る</a></span></div>
             </div>
-            
+            <div class="row">
+        @foreach ($likes->unique('id') as $like)
+        @if($loop->index === 8)
+        @php break; @endphp
+        @endif
+        <a href="{{ route('product.show',['product' => $like->id]) }}" class="col-lg-3 col-md-3">
+            <div class="card">
 
-            <div class="popular_shops">
-                <div class="popular_shop_photo">
-                    @foreach($default_img as $file)
-                    <img src="" width="100%" height="100%">
-                    @endforeach
-                
+                @if(empty($like->file_id))
+                <img src="{{ $default_img->path }}" style="height:250px" class="card-img"/>
+                @else
+                <img src="{{ $like->file_path}}" style="height:250px" class="card-img">
+                @endif
+
+                <div class="card-body">
+                    <p class="card-title">{{ $like->name }}</p>
+                    <p class="card-text">¥{{ $like->price }} </p>
                 </div>
-                <div class="popular_shops_detail">
-                    <div class="popular_shops_title">
-                        店の名前
-                    </div>
-                </div>
-        </div>
+            </div>
+        </a>
+        @endforeach
+    </div>
+
+    @endauth
 
 @endsection

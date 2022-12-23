@@ -1,19 +1,25 @@
 @extends('layouts.layout')
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
     <div class="row-lg-12 d-flex">
         <!-- 左側 -->
         <div class="col-lg-8">
-            <img src="{{( asset($file->path ))}}" class="card_img_top" alt="1" width="500px" height="500px">
-
-
+            
+            <a data-lightbox="demo" href="{{( asset($file->path ))}}"><img src="{{( asset($file->path ))}}" class="card_img_top" alt="1" width="500px" height="500px"></a>
+            
             <div class="card w-75 mx-auto">
             <ul class="sub_img">
-            <li><img src="{{($file->path)}}" class="card_img_top" alt="2"></li>
-            <li><img src="{{($file->path)}}" class="card_img_top" alt="3"></li>
-            <li><img src="{{($file->path)}}" class="card_img_top" alt="4"></li>
-            <li><img src="{{($file->path)}}" class="card_img_top" alt="5"></li>
+          
+            @foreach($files as $file)
+                @if($loop->first == true)
+                    <a data-lightbox="group" href="{{asset($file->path)}}">
+                    @else<a data-lightbox="demo" href="{{asset($file->path)}}">
+                <li><img src="{{asset($file->path)}}" class="card_img_top" style="width:100px; height:100px;"alt="2"></li>
+                @endif</a>
+                @endforeach
             </ul>
+            
             </div>
         </div>
         
@@ -55,6 +61,22 @@
                         <option value="2">2</option>
                         <option value="3">3</option>
                     </select>
+                
+                    @auth
+                    @if (!$product->isLikedBy(Auth::user()))
+                    <!-- 未いいねの際の表示 -->
+                        <span class="likes">
+                            <i class="far fa-heart like-toggle" data-product-id="{{ $product->id }}"></i>
+                        <span class="like-counter">{{$product->product_likes_count}}</span>
+                        </span>
+                    @else
+                    <!-- いいね済の際の表示 -->
+                        <span class="likes">
+                            <i class="far fa-heart like-toggle liked" data-product-id="{{ $product->id }}"></i>
+                        <p class="like-counter">{{$product->product_likes_count}}</p>
+                        </span>
+                    @endif
+                    @endauth
                 </div>
                
             </div>
@@ -68,9 +90,18 @@
                 <input type="hidden" name="name" value="{{$product->name}}">
                 <input type="hidden" name="price" value="{{$product->price}}">
 
+                @auth
                 <input type="submit"  class="btn btn-outline-warning" value="カートに入れる"></button>
                     <button type="button" class="btn btn-outline-info">購入</button>
                 </div>
+                @endauth
+
+                @guest
+                <a href="{{ route('login')}}" class="btn btn-outline-warning">カートに入れる</a>
+                <a href="{{ route('login')}}" class="btn btn-outline-info">購入</a>
+                @endguest
+
+                
             </div>
                 <div class="shop_detail">
   
@@ -87,7 +118,10 @@
 
 
 <div class="product_description">
-<div class="description">{{ $product->detail}}</div>
+    <div class="description">{{ $product->detail}}</div>
 </div>
 
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 @endsection

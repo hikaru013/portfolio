@@ -1,12 +1,12 @@
 @extends('layouts.layout')
 @section('content')
 <div class="title">
-        <div class="list_title"><span>人気商品一覧</span></div>
+        <div class="list_title"><span>商品一覧</span></div>
         </div>
     <div class="row">
-        @foreach ($products as $product)
+        @foreach ($products->unique('id') as $product)
         
-        <a href="{{ route('product_detail',['id' => $product->id]) }}" class="col-lg-3 col-md-3">
+        <a href="{{ route('product.show',['product' => $product->id]) }}" class="col-lg-3 col-md-3">
             <div class="card">
 
                 @if(empty($product->file_id))
@@ -22,6 +22,8 @@
             </div>
         </a>
         @endforeach
+    </div>
+    <div class="d-flex justify-content-center">
         {{ $products->links() }}
     </div>
 

@@ -1,6 +1,8 @@
 <?php
 use App\Http\Controllers\DisplayController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\ProductController;
 
 
 /*
@@ -20,32 +22,47 @@ use App\Http\Controllers\RegistrationController;
 
 Auth::routes();
 
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset/{token}', 'Auth\ResetPasswordController@reset');
+
+// middleware追記↓
+
 //home
 route::get('/',[DisplayController::class, 'index'])->name('top');
 
-//商品一覧
-route::get('/products_list',[DisplayController::class,'products_list'])->name('products_list');
 
-//商品詳細 /カートに追加
-route::get('/product_detail/{id}',[DisplayController::class,'product_detail'])->name('product_detail');
+// 商品一覧リソース
+route::resource('/product','ProductController');
+// route::post('/product/{product}',[ProductController::class,'update'])->name('product.update');
+//商品一覧 index
+// route::get('/products_list',[DisplayController::class,'products_list'])->name('products_list');
+// 商品詳細 表示show 
+// route::get('/product_detail/{id}',[DisplayController::class,'product_detail'])->name('product_detail');
+
+
+
+//出品画面 表示create/登録store
+// Route::get('/register_product',[RegistrationController::class, 'view_register_product'])->name('view_register_product');
+// Route::post('/register_product',[RegistrationController::class, 'exe_register_product'])->name('exe_register_product');
+// //商品編集 表示edit/実行update
+// route::get('/edit_product/{id}',[RegistrationController::class,'view_edit_product'])->name('view_edit_product');
+// Route::post('/edit_product/{id}',[RegistrationController::class, 'exe_edit_product'])->name('exe_edit_product');
+// 商品画像削除
+route::post('/product/{id}',[RegistrationController::class,'delete_img'])->name('delete_img');
+// カートに追加
 route::post('/product_detail/{id}',[RegistrationController::class,'addCart'])->name('addCart');
-
-// いいねボタン
-// Route::get('/product_detail/{id}',[LikeController::class,'product_like']);
-// Route::get('/product_detail/{id}', [LikeController::class,'product_unlike']);
-
-
-//商品編集 表示/実行
-route::get('/edit_product/{id}',[RegistrationController::class,'view_edit_product'])->name('view_edit_product');
-Route::post('/edit_product/{id}',[RegistrationController::class, 'exe_edit_product'])->name('exe_edit_product');
-
 //カート画面表示
 route::get('/view_cart',[RegistrationController::class,'view_cart'])->name('view_cart');
 // カート内商品削除
 route::post('/del_cart',[RegistrationController::class,'del_cart'])->name('del_cart');
+//購入実行
+route::post('/exe_buy',[RegistrationController::class,'exe_buy'])->name('exe_buy');
 
 
 //検索
+route::get('/search',[DisplayController::class,'search'])->name('search');
 
 //詳細検索
 route::get('/filter_search',[DisplayController::class,'filter_search'])->name('filter_search');
@@ -54,9 +71,6 @@ route::get('/filter_search',[DisplayController::class,'filter_search'])->name('f
 route::get('/shops_list',[DisplayController::class,'shops_list'])->name('shops_list');
 //ショップ詳細
 route::get('/shop_detail/{id}',[DisplayController::class,'shop_detail'])->name('shop_detail');
-
-
-
 
 //購入した商品一覧
 route::get('/ordered_lists',[DisplayController::class,'ordered_lists'])->name('ordered_lists');
@@ -83,17 +97,24 @@ route::post('view_edit_user',[RegistrationController::class,'exe_edit_user'])->n
 
 
 // パスワードリセット
-route::get('password_reset',[RegistrationController::class,'password_reset'])->name('password_reset');
+// route::get('password_reset',[RegistrationController::class,'password_reset'])->name('password_reset');
 
 // ログアウト
 // route::get('logout',[RegistrationController::class,'logout']);
 
-//出品 表示/登録
-Route::get('/register_product',[RegistrationController::class, 'view_register_product'])->name('view_register_product');
-Route::post('/register_product',[RegistrationController::class, 'exe_register_product'])->name('exe_register_product');
+
 
 // 管理者メニュー
 route::get('/admin_menu',[DisplayController::class,'admin_menu'])->name('admin_menu');
 
 //ユーザー一覧
 route::get('/users_list',[DisplayController::class,'users_list'])->name('users_list');
+//ユーザー削除
+route::post('/users_list',[DisplayController::class,'user_delete'])->name('user_delete');
+
+// いいね
+Route::post('/like', [LikeController::class,'like']);
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

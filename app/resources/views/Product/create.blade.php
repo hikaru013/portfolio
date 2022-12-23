@@ -18,7 +18,7 @@
         <!-- 左側 -->
             <div class="container">
 
-                <form action="{{ route('exe_register_product' )}}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('product.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <!-- プレビュー -->
                     <div class="imagePreview" style="height:250px"></div>
@@ -26,7 +26,7 @@
                     <div class="input-group">
                         <label class="input-group-btn">
                             <span class="btn btn-primary">
-                                Choose File<input type="file" style="display:none" name="file" class="uploadFile">
+                                Choose File<input type="file" style="display:none" name="file[]" class="uploadFile">
                             </span>
                         </label>
                         <input type="text" class="form-control" readonly="">
@@ -39,7 +39,7 @@
                             <div class="input-group">
                                 <label class="input-group-btn">
                                     <span class="btn btn-primary">
-                                        Choose File<input type="file" style="display:none" class="uploadFile">
+                                        Choose File<input type="file" style="display:none" name="file[]"  class="uploadFile">
                                     </span>
                                 </label>
                             <input type="text" class="form-control" readonly="">
@@ -51,7 +51,7 @@
                             <div class="input-group">
                                 <label class="input-group-btn">
                                     <span class="btn btn-primary">
-                                        Choose File<input type="file" style="display:none" class="uploadFile">
+                                        Choose File<input type="file" style="display:none" name="file[]" class="uploadFile">
                                     </span>
                                 </label>
                             <input type="text" class="form-control" readonly="">
@@ -63,7 +63,7 @@
                             <div class="input-group">
                                 <label class="input-group-btn">
                                     <span class="btn btn-primary">
-                                        Choose File<input type="file" style="display:none" class="uploadFile">
+                                        Choose File<input type="file" style="display:none" name="file[]"  class="uploadFile">
                                     </span>
                                 </label>
                             <input type="text" class="form-control" readonly="">
@@ -123,8 +123,8 @@
 </div>
 
 <div class='row justify-content-center'>
-                                <button type='submit' class='btn btn-primary w-25 mt-3'>登録</button>
-                            </div> 
+    <button type='submit' class='btn btn-primary w-25 mt-3'>登録</button>
+</div> 
         <!-- ないと画像プレビュー動作しない -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <!-- なくても画像プレビュー動作する -->

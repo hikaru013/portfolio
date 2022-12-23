@@ -12,5 +12,7 @@ class Product_like extends Model
 
     public function product(){
         return $this->belongsTo('App\Product');
+
     }
+    
 }

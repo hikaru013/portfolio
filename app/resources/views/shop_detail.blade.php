@@ -18,8 +18,8 @@
     </div>
 
     <div class="row">
-            @foreach($products as $product)
-            <a href="{{route('product_detail',['id' => $product->id])}}" class="col-lg-2">
+            @foreach($products->unique('id') as $product)
+            <a href="{{route('product.show',['product' => $product->id])}}" class="col-lg-2">
 
             <div class="card">
                 @if(empty($product->file_id))

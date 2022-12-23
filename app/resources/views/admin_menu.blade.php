@@ -8,7 +8,7 @@
 <div class="card mx-auto" style="width: 30rem;">
   <ul class="list-group list-group-flush ">
   <a href="{{route('users_list')}}" class="list-group-item text-center">ユーザー一覧</a>
-  <a href="{{ route('products_list') }}" class="list-group-item text-center">商品　一覧</a>
+  <a href="{{ route('product.index') }}" class="list-group-item text-center">商品　一覧</a>
   <a href="{{ route('register') }}" class="list-group-item text-center">新規管理者 追加</a>
   </ul>
 </div>

@@ -14,9 +14,18 @@
             @endforeach
           </div>
         @endif
-        <form action="" method="POST">
+
+        <form action="{{ route('exe_edit_user') }}" method="POST" enctype="multipart/form-data">
           @csrf
         
+          <div class="input-group">
+              <label class="input-group-btn">
+                  <span class="btn btn-primary">
+                      Choose File<input type="file" style="display:none" name="file" class="uploadFile">
+                  </span>
+              </label>
+              <input type="text" class="form-control" readonly="">
+          </div>
 
           <div class="form-group">
             <label for="name">氏名</label>
@@ -54,13 +63,12 @@
                 <label class="payment">コンビニ支払い</label>
               <input type="radio" class="" id="payment" name="payment" value="後で追加する"></input>
                 <label class="payment">後で追加する</label>
-
-              
           </div>
+
           <div class="d-flex justify-content-center mt-3">
-              <a href="{{ route('exe_edit_user') }}">
             <button type="submit" class="btn btn-primary">送信</button>
           </div>
+
         </form>
       </div>
     </nav>
