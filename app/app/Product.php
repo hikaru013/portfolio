@@ -24,6 +24,7 @@ class Product extends Model
     }
 
     
+
     public function product_likes(){
         return $this->hasMany('App\Product_like');
     }

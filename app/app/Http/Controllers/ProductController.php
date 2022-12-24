@@ -30,7 +30,7 @@ class ProductController extends Controller
             $products = Product::select('products.id', 'products.name','products.price', 'files.id as file_id',
                                         'files.name as files_name','files.path as file_path')
             ->leftjoin('files', 'files.product_id', '=', 'products.id')  // 第一引数に結合するテーブル名、第二引数に主テーブルの結合キー、第四引数に結合するテーブルの結合キーを記述
-            ->paginate(10);
+            ->paginate(15);
 
             // dd($products);
 
@@ -59,6 +59,25 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+        'name' => ['required'],
+        'price' =>['required'],
+        'stock' =>['required'],
+        'sex' =>['required'],
+        'size' =>['required'],
+        'category' =>['required'],
+        'detail' =>['required'],
+        ],
+        ['name.required' => '商品名を入力して下さい。',
+        'price.required'  => '値段を入力して下さい。',
+        'stock.required'  => '在庫を入力して下さい。',
+        'sex.required'  => '性別を選択して下さい。',
+        'size.required'  => 'サイズを選択して下さい。',
+        'category.required'  => 'カテゴリを選択して下さい。',
+        'detail.required' =>'商品詳細を入力して下さい。',
+
+        ]);
        
         //新規出品 登録
         $dir = 'product_img';
@@ -78,14 +97,12 @@ class ProductController extends Controller
             $product->detail = $request->detail;
 
             $product->save();
+
+            $file_table = New File;
+    
+        if(!empty($files)){
             foreach($files as $file){
                 $file_table = New File;
-                if ($request->file('file') == null) {
-                    $files = "";
-                    $file_name = "";
-                    echo "error";
-                
-                }else{
                     $file_name = $file->getClientOriginalName();
                     
                     //画像を保存するだけの処理
@@ -99,8 +116,9 @@ class ProductController extends Controller
                     $file_table->path = 'storage/'.$dir.'/'.$file_name;
                     $file_table->insert_time = carbon::now();
                     $file_table->save();
-                };
+
             };
+        };
        
             return redirect('/');
     }
@@ -133,6 +151,7 @@ class ProductController extends Controller
         $product_table = new product;
         $product = $product_table->withcount('product_likes')->find($productId);
     
+        // dd()
         // 出品者画像取得
         $file_id = $product->user->file_id;
         //もし画像が登録されていなければデフォルトイメージ
@@ -160,18 +179,14 @@ class ProductController extends Controller
     {
         //編集画面表示
 
-        // もし画像が登録されていなければデフォルトイメージ
         $file_table = new File;
         $files = $file_table->where('product_id',$productId)->exists();
         
-        // 0番目だけ
         if($files === true){
-            // $first_img = $file_table->where("product_id",$productId)->first();
-
-            // offset
             $file = $file_table->where("product_id",$productId)->get();
 
         }else{
+             // もし画像が登録されていなければデフォルトイメージ
             $file = $file_table->where('id',0)->first();
         }
 
@@ -194,24 +209,40 @@ class ProductController extends Controller
     public function update(Request $request, $productId)
     {
         //編集内容保存
+        $request->validate([
+            'name' => ['required'],
+            'price' =>'integer | required',
+            'stock' =>'integer | required',
+            'sex' =>['required'],
+            'size' =>['required'],
+            'category' =>['required'],
+            'detail' =>['required'],
+            ],
+            ['name.required' => '商品名を入力して下さい。',
+            'price.required'  => '値段を入力して下さい。',
+            'price.integer' =>'値段は数字で入力して下さい。',
+            'stock.required'  => '在庫を入力して下さい。',
+            'stock.integer' =>'在庫は数字で入力して下さい。',
+            'sex.required'  => '性別を選択して下さい。',
+            'size.required'  => 'サイズを選択して下さい。',
+            'category.required'  => 'カテゴリを選択して下さい。',
+            'detail.required' =>'商品説明を入力して下さい。'
+    
+            ]);
 
         // dd($request->all());
 
         $file_table = New File;
         $dir = 'product_img';
         $files =  $request->file('img');
-        // dd($files);
-        
 
-            // dd($file);
+
+        if(!empty($files)){
             foreach($files as $file){
-                if ($file == null) {
-                    $file = "";
-                    $file_name = "";
-                    
-                }else{
-                    $file_name = $file->getClientOriginalName();
-                    $file = $file->storeAs('public/'.$dir,$file_name);  
+
+                $file_table = New File;
+                $file_name = $file->getClientOriginalName();
+                $file = $file->storeAs('public/'.$dir,$file_name);  
 
                 $file_table->product_id = $productId;
                 // $request->file('file')->storeAs('public/', $dir ,$file_name);
@@ -219,7 +250,11 @@ class ProductController extends Controller
                 $file_table->path = 'storage/'.$dir.'/'.$file_name;
                 $file_table->insert_time = carbon::now();
                 $file_table->save();
-                }}
+                }
+            }else{
+                $file = "";
+                $file_name = "";
+            }
             
 
             $product = new Product;
@@ -249,7 +284,7 @@ class ProductController extends Controller
      */
     public function destroy($productId){
         // 商品削除
-        dd($productId);
+        // dd($productId);
         $product = new Product;
         $product->destroy($productId);
 

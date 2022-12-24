@@ -1,54 +1,44 @@
 @extends('layouts.layout')
 @section('content')
-<div class="page_title">購入された商品</div>
+<div class="page_title">購入履歴</div>
 
+<!-- 購入した商品がない場合 -->
+@if($sold_products->isempty())
+    <div class="card text-center">
+        <p class="p-5">購入された商品がありません</p>
+    </div>
 
-コピーだよ
+<!-- 購入した商品がある場合 -->
+@elseif(!empty($sold_products))
+    @foreach($sold_products as $sold)
+    <div class="row" style="margin-top:20px;">
 
+        <!-- 左側 -->
+        <div class="d-flex align-items-center justify-content-center" style="width:40%">
+            {{$sold->created_at->format('Y年m月d日H時i分')}}に購入されました
+        </div>
 
-<!-- 下記foreach -->
-
-@foreach($datas as $data)
-<div class="cart_frame">
-    
-        <div class="col-lg-3 text-center">
-            
-           @if(empty($productimg[$loop->index]->path))
-            <img class="frame" src="{{$defaultimg->path}}" style="width:150px;height:150px;"alt="photo">
-            @else
-            <img class="frame" src="{{$productimg[$loop->index]->path}}" style="width:150px;height:150px;"alt="photo">
+        
+        <!-- 商品画像 -->
+        <div class="col" style="width:30%;">
+            @foreach($sold->product->file as $file)
+            <!-- ひとつ目の画像のみ取得 -->
+            @if($loop->first)
+            <img class="card-img-top" style="width:50%" src="{{$file->path}}">
             @endif
+            
+            @endforeach
         </div>
-
-    <div class="col-lg-3">
-        <p class="col">@if (isset($data['SessionProductName'])){{ $data['SessionProductName'] }} @endif</p>
-        <p class="col">サイズ：@if (isset($data['SessionProductSize'])){{ $data['SessionProductSize']}} @endif</p>
-    </div>
-
-        <div class="col-lg-3">
-            <p class="col">@if(isset($shopname)){{$shopname[$loop->index]->user->name}} @endif</p>
-            <p class="col">@if (isset($data['SessionProductQuantity']))個数：{{$data['SessionProductQuantity']}} @endif</p>
+        
+        
+        <!-- 右側 -->
+        <div class="col"style="width:25%">
+            <div class="row">商品名：{{$sold->product->name}}</div>
+            <div class="row">購入者：{{$sold->user->name}}</div>
+            <div class="row">値段：{{$sold->price}}</div>
         </div>
-
-    <div class="col-lg-3">
-    <p class="individual_price">@if (isset($data['SessionProductPrice']))￥{{$data['SessionProductPrice']}} @endif</p>
-
-
-    
-</div>
-@endforeach
-
-
-<div class="row">
-    <div class="d-flex align-items-center justify-content-center" style="width:50%">XX時に購入しました</div>
-    <div class="col">
-        <img class="card-img-top" style="width:25%" src="/images/pathToYourImage.png">画像
     </div>
+    @endforeach
 
-    <div class="col"style="width:25%">
-        <div class="row">商品名</div>
-        <div class="row">ショップ名</div>
-        <div class="row">値段</div>
-    </div>
-</div>
+@endif
 @endsection

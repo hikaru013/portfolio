@@ -50,9 +50,28 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'class_id' => ['required'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'birth' =>'required|min:8|max:8',
+            'address' =>'required',
+            'email' => 'required|email:filter|unique:users',
+            'payment' =>'required',
+        ],
+        [
+        'class_id.required' =>'種別を選択して下さい。',
+        'name.required' => '名前を入力して下さい。',
+        'password.required'=>'パスワードを入力して下さい。',
+        'password.min'=>'パスワードは８文字以上で入力して下さい。',
+        'password.confirmed'=>'パスワードが一致しません。',
+        'birth.required'  => '生年月日を入力して下さい。',
+        'birth.integer'  => '生年月日は数値で入力して下さい。例：YYYYMMDD',
+        'birth.size'=>'生年月日は８桁で入力して下さい。例：YYYYMMDD',
+        'address.required' =>'住所を入力して下さい。',
+        'email.required'  => 'メールアドレスを入力して下さい。',
+        'email.email' =>'メールアドレスは正しい形式で入力して下さい。',
+        'payment.required'  => 'お支払い方法を選択して下さい。',        
         ]);
     }
 

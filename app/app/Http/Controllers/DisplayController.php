@@ -10,6 +10,7 @@ use App\File;
 use App\Product;
 use App\User;
 use App\orderd_item;
+use App\user_like;
 
 class DisplayController extends Controller
 {
@@ -64,6 +65,26 @@ class DisplayController extends Controller
                 'default_img'=>$default_img,
             ]);
         }
+    //出品商品 表示(ResourceControllerとは別)
+        public function on_sale(){
+
+            $file_table = new File;
+            $user_table = new User;
+            $product_table = new Product;
+            $default_img = $file_table->where('id',0)->first('path');
+            
+            // 商品一覧取得
+            $products = $product_table;
+            $products = Product::select('products.id','products.user_id', 'products.name','products.price', 'files.id as file_id',
+                                        'files.name as files_name','files.path as file_path','products.updated_at')
+            ->leftjoin('files', 'files.product_id', '=', 'products.id')  // 第一引数に結合するテーブル名、第二引数に主テーブルの結合キー、第四引数に結合するテーブルの結合キーを記述
+            ->where('products.user_id',auth::user()->id)->orderBy('updated_at')->paginate(10);
+            // dd($products);
+
+
+            return view('on_sale',compact('products','default_img')
+            );
+        }
 
     // 検索結果表示画面
         public function search(request $request ){
@@ -83,7 +104,55 @@ class DisplayController extends Controller
             ->where('products.name','LIKE',"%$word%")->paginate(8);
 
 
-            return view('products_list',[
+            return view('product.index',[
+                'products'=>$products,
+                'default_img'=>$default_img,
+            ]);
+        
+        }
+
+    // 詳細検索
+        public function filter_search(){
+            return view('filter_search');
+        }
+    //詳細検索実行
+        public function exe_filter_search(request $request){
+            // dd($request->all());
+
+            $file_table = new File;
+            $user_table = new User;
+            $product_table = new Product;
+            $default_img = $file_table->where('id',0)->first('path');
+            
+            $word = $request->search;
+            $size = $request->size;
+            $sex = $request->sex;
+            $category = $request->category;
+
+            // 商品一覧取得
+            $products = $product_table;
+            $products = Product::select('*')// 主となるテーブル名
+            ->select('products.id', 'products.name','products.price', 'files.id as file_id',
+                    'files.name as files_name','files.path as file_path',
+                    'products.size','products.category','products.sex')
+            ->leftjoin('files', 'files.product_id', '=', 'products.id')  // 第一引数に結合するテーブル名、第二引数に主テーブルの結合キー、第四引数に結合するテーブルの結合キーを記述
+            ->where('products.name','LIKE',"%$word%");
+            
+            if(!empty($category)){
+                $products = $products->where('products.category',$category);
+            };
+
+            if(!empty($size)){
+                $products = $products->where('products.size',$size);                
+            };
+
+            if(!empty($sex)){
+                $products = $products->where('products.sex',$sex);
+            };
+            
+            $products = $products->paginate(8);
+
+            return view('product.index',[
                 'products'=>$products,
                 'default_img'=>$default_img,
             ]);
@@ -127,10 +196,7 @@ class DisplayController extends Controller
                 ]);
         }
     
-    // 詳細検索
-        public function filter_search(){
-            return view('filter_search');
-        }
+    
     //ショップ一覧
         public function shops_list(){
         $user_table = new User;
@@ -164,6 +230,7 @@ class DisplayController extends Controller
         // ショップ情報と出品した商品情報取得
         $user_table = new User;
         $users = $user_table->with('file','products')->find($userId);
+        $default_img = file::where('id',0)->first('path');
         // dd($users);
 
         // ロゴ情報取得
@@ -185,38 +252,37 @@ class DisplayController extends Controller
         ->where('products.user_id',$userId)->get();
         // dd($products);
         
-        
+        $user = user::withCount('likes')->find($userId);
+        // dd($user);
+
         return view('shop_detail',
-                    ['users'=>$users,
+                    ['user'=>$user,
+                    'users'=>$users,
                     'user_img'=>$user_img,
-                    'products'=>$products]);
+                    'products'=>$products,
+                    'default_img'=>$default_img]);
         }
 
     //購入履歴
         public function ordered_lists(){
-            return view('ordered_lists');
+            $orderd_items = auth::user()->orderd_items;
+            $default_img = file::where('id',0)->first('path');
+
+            return view('ordered_lists',compact('orderd_items','default_img'));
         }
     // 売却履歴
         public function orderd_by_lists(){
-            $file = new File;
-            $product = new Product;
-            $orderd_by = new orderd_item;
-            // dd(Auth::user()->orderd_items);
-            $orderd_items = $orderd_by->where('user_id',auth::user()->id);
-            $orderd_product_ids = $orderd_items->get('product_id');
-            // dd($orderd_product_ids);
+  
+            $sold_products = auth::user()->orderd_item;
 
-            $orderd_items = Auth::user()->orderd_items;
-            
-            foreach($orderd_items as $orderd_item){
-                dd($orderd_item->product->file);
+            // dd($sold_products);
+            foreach($sold_products as $products){
+                $product_id = $products->id;
+                $sold_item = orderd_item::where('product_id',$product_id)->get();
                 
-
-            // $files = File::where('product_id',$orderd_product_id)->get();
-            
             }
-            dd($files);
-            return view('orderd_by_lists');
+            // dd($product_id,$sold_products,$products);
+            return view('orderd_by_lists',compact('sold_products'));
         }
 
     //いいね一覧

@@ -50,10 +50,9 @@
 
 <div class="EFG">
     <div>
-        <form action="{{route('exe_buy')}}" method="post">
-            @csrf
+        
         <p class="cart_total_price">合計：{{$total_price}}円</p>
-        <button type="submit" class="btn btn-secondary">購入する</button>
+        <a type="button" href="{{route('confirm')}}" class="btn btn-secondary">購入する</a>
     </div>
 </div>
 

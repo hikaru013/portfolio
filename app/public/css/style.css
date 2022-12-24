@@ -360,7 +360,7 @@ main{
     top:112px;
     right:0;
     bottom:0;
-    transition:all 0.3s;
+    transition:all 0.7s;
     z-index: -10;
     opacity:0;
 }
@@ -585,7 +585,7 @@ nav .inner ul li a:hover{
     }
 
     .purchase button{
-        font-size:20px;
+        font-size:16px;
     }
 
     .purchase{
@@ -695,13 +695,52 @@ nav .inner ul li a:hover{
 
     /* 商品削除 */
     .product_delete{
-        position:absolute;
-        top: 145px;
-        right: 280px;
+        /* position: relative;
+        right: -400px;
+        bottom: 771px; */
     }
 
     .image_delete{
-        position:absolute;
-        top: 145px;
-        left: 630px;
+        position: relative;
+        bottom: 705px;
+        left: 356px;
+    }
+
+    .list-group{
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        flex-direction: row;
+        width:83%;
+    }
+    
+    .hij{
+        width:20%;
+    }
+
+    .user_info_button{
+        position: absolute;
+        right: 350px;
+        top: 250px;
+    }
+
+        /* 詳細検索画面 */
+
+    .filter_search_window{
+        height: 30px;
+    padding: 0 10px;
+    /* position: relative; */
+    left: 0;
+    top: 15px;
+    border-radius: 10px;
+    outline: none;
+    /* background: #eee; */
+    width: 30vw;
+    }
+
+    .form-group li div{
+        display:flex;
+        padding:2px 12px;
     }

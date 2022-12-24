@@ -22,9 +22,9 @@
               @csrf
 
               <div class="form-group">
-                  <label for="class_id">用途</label>
-                  <input type="radio" class="" id="class_id" name="class_id" value="1">購入</input>
-                  <input type="radio" class="" id="class_id" name="class_id" value="2">出品</input>
+                  <label for="class_id" style="font-size:14px;">用途</label>
+                  <input type="radio" class="" id="class_id" name="class_id" value="1"><span style="font-size:16px">購入</span></input>
+                  <input type="radio" class="" id="class_id" name="class_id" value="2"><span style="font-size:16px">出品</span></input>
 
                 @auth
                 @php $class_id=Auth::User()->class_id;@endphp
@@ -71,11 +71,16 @@
 
               <div class="form-group">
                   <label for="payment">支払い方法</label>
-                  <input type="radio" class="" id="payment" name="payment" value="クレジットカード">クレジットカード</input>
-                  <input type="radio" class="" id="payment" name="payment" value="代金引換">代金引換</input>
-                  <input type="radio" class="" id="payment" name="payment" value="コンビニ支払い">コンビニ支払い</input>
-                  <input type="radio" class="" id="payment" name="payment" value="後で追加する">後で追加する</input>
-
+                  <div>
+                  <input type="radio" class="" id="payment" name="payment" value="クレジットカード">
+                    <span style="font-size:16px">クレジットカード</input></span>
+                  <input type="radio" class="" id="payment" name="payment" value="代金引換">
+                    <span style="font-size:16px">代金引換</input></span>
+                  <input type="radio" class="" id="payment" name="payment" value="コンビニ支払い">
+                    <span style="font-size:16px">コンビニ支払い</input></span>
+                  <input type="radio" class="" id="payment" name="payment" value="後で追加する">
+                    <span style="font-size:16px">後で追加する</input></span>
+                  </div>
                   
               </div>
               <div class="text-right">

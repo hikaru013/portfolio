@@ -1,24 +1,33 @@
 @extends('layouts.layout')
 @section('content')
 <div class="page_title">登録情報編集</div>
-<div class="row justify-content-center">
-  <div class="col col-md-offset-3 col-md-6">
 
-  
-    <nav class="card mt-5">
-      <div class="card-body">
-        @if($errors->any())
-          <div class="alert alert-danger">
-            @foreach($errors->all() as $message)
-              <p>{{ $message }}</p>
+<div class="row justify-content-center">
+
+  <div class="col col-md-offset-3 col-md-6">
+  @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
             @endforeach
-          </div>
-        @endif
+        </ul>
+    </div>
+@endif
+  
+    <nav class="card">
+      <div class="card-body">
+      
 
         <form action="{{ route('exe_edit_user') }}" method="POST" enctype="multipart/form-data">
           @csrf
         
-          <div class="input-group">
+          @if(auth()->user()->class_id ===2 ||auth()->user()->class_id ===3)
+          <div class="imagePreview mx-auto text-center" style="background-size:250px;height:250px;width:250px; padding-bottom:15px;">
+            <img class="" src="{{$file->path}}" style="width:250px">
+          </div>
+
+          <div class="input-group mx-auto" style="padding-top:10px;width:65%;">
               <label class="input-group-btn">
                   <span class="btn btn-primary">
                       Choose File<input type="file" style="display:none" name="file" class="uploadFile">
@@ -26,6 +35,7 @@
               </label>
               <input type="text" class="form-control" readonly="">
           </div>
+          @endif
 
           <div class="form-group">
             <label for="name">氏名</label>
@@ -34,7 +44,7 @@
 
           <div class="form-group">
             <label for="birth">生年月日</label>
-            <input type="text" class="form-control" id="birth" name="birth" value="{{ $user->birth }}" />
+            <input type="text" placeholder="YYYYMMDD"class="form-control" id="birth" name="birth" value="{{ $user->birth }}" />
           </div>
 
           <div class="tel">
@@ -55,18 +65,18 @@
 
           <div class="form-group">
               <label for="payment">支払い方法</label>
-              <input type="radio" class="" id="payment" name="payment" value="クレジットカード">
+              <input type="radio" class="" id="payment" name="payment" value="クレジットカード"{{ old('payment', $user->payment)==="クレジットカード"?'checked':''}}>
                 <label class="payment">クレジットカード</input></label>
-              <input type="radio" class="" id="payment" name="payment" value="代金引換">
+              <input type="radio" class="" id="payment" name="payment" value="代金引換"{{ old('payment', $user->payment)==="代金引換"?'checked':''}}>
                 <label class="payment">代金引換</input></label>
-              <input type="radio" class="" id="payment" name="payment" value="コンビニ支払い"></input>
+              <input type="radio" class="" id="payment" name="payment" value="コンビニ支払い"{{ old('payment', $user->payment)==="コンビニ支払い"?'checked':''}}></input>
                 <label class="payment">コンビニ支払い</label>
-              <input type="radio" class="" id="payment" name="payment" value="後で追加する"></input>
+              <input type="radio" class="" id="payment" name="payment" value="後で追加する"{{ old('payment', $user->payment)==="後で追加する"?'checked':''}}></input>
                 <label class="payment">後で追加する</label>
           </div>
 
           <div class="d-flex justify-content-center mt-3">
-            <button type="submit" class="btn btn-primary">送信</button>
+            <button type="submit" class="btn btn-primary" onclick="return confirm('登録してよろしいですか？')">編集保存</button>
           </div>
 
         </form>

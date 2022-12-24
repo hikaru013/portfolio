@@ -39,12 +39,16 @@ class User extends Authenticatable
     ];
 
     public function likes(){
-        return $this->belongsToMany('App\User','user_likes','likes_id','id');
+        return $this->hasMany('App\user_like','likes_id','id');
 
     }
 
     public function be_liked(){
-        return $this->belongsToMany('App\User','User_likes','be_liked_id','id');
+        return $this->hasMany('App\User_like','be_liked_id','id');
+    }
+
+    public function isLikedBy($user): bool {
+        return user_like::where('likes_id', $user->id)->where('be_liked_id', $this->id)->first() !==null;
     }
 
     public function products(){
@@ -63,6 +67,10 @@ class User extends Authenticatable
     public function orderd_items()
     {
         return $this->hasMany('App\Orderd_item');
+    }
+
+    public function orderd_item(){
+        return $this->hasManyThrough('App\Orderd_item','App\Product','user_id','product_id','id','id');
     }
 
     /**

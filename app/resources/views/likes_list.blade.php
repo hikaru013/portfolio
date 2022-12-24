@@ -1,15 +1,20 @@
 @extends('layouts.layout')
 @section('content')
+
+<div class="page_title">いいね一覧</div>
+
 <div class="liked_products">
-            <div class="title">
-                <div class="list_title"><span>いいね一覧</span></div>
-                <div class="list_more"><span><a href="{{ route('likes_list')}}">もっと見る</a></span></div>
-            </div>
-            <div class="row">
+@if(empty($like))
+    <div class="card text-center">
+            <p class="p-5">いいねした商品がありません</p>
+    </div>
+
+@else
+    <div class="row">
         @foreach ($likes->unique('id') as $like)
-        @if($loop->index === 8)
-        @php break; @endphp
-        @endif
+            @if($loop->index === 8)
+            @php break; @endphp
+            @endif
         <a href="{{ route('product.show',['product' => $like->id]) }}" class="col-lg-3 col-md-3">
             <div class="card">
 
@@ -26,5 +31,6 @@
             </div>
         </a>
         @endforeach
-</div>
+    </div>
+@endif
 @endsection

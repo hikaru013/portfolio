@@ -82,3 +82,44 @@ $(document).on('change', ':file', function() {
               });
             });
             });
+
+//ユーザーへのいいね
+    $(function () {
+        let like = $('.like-toggle');
+        let likeUserId;
+
+        like.on('click', function () { 
+            let $this = $(this); 
+            likeUserId = $this.data('user-id');
+            
+            $.ajax({
+            headers: { 
+                'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+            },  
+            url: '/user_like', 
+            method: 'POST', 
+            data: { 
+                'user_id': likeUserId 
+            },
+            })
+            
+            .done(function (data) {
+            if($this.hasClass('liked')){
+                $this.removeClass('liked');
+                $this.removeClass('fas');
+                $this.addClass('far');
+                }else{
+                $this.addClass('liked');
+                $this.removeClass('far');
+                $this.addClass('fas');
+                }
+        
+            $this.next('.like-counter').html(data.user_likes_count);
+            
+            })
+            
+            .fail(function () {
+            console.log('エラー'); 
+            });
+        });
+        });

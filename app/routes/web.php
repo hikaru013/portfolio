@@ -35,6 +35,7 @@ route::get('/',[DisplayController::class, 'index'])->name('top');
 
 // 商品一覧リソース
 route::resource('/product','ProductController');
+route::get('/on_sale',[Displaycontroller::class,'on_sale'])->name('on_sale');
 // route::post('/product/{product}',[ProductController::class,'update'])->name('product.update');
 //商品一覧 index
 // route::get('/products_list',[DisplayController::class,'products_list'])->name('products_list');
@@ -57,6 +58,9 @@ route::post('/product_detail/{id}',[RegistrationController::class,'addCart'])->n
 route::get('/view_cart',[RegistrationController::class,'view_cart'])->name('view_cart');
 // カート内商品削除
 route::post('/del_cart',[RegistrationController::class,'del_cart'])->name('del_cart');
+//購入確認
+route::get('/confirm',[RegistrationController::class,'purchase_confirm'])->name('confirm');
+
 //購入実行
 route::post('/exe_buy',[RegistrationController::class,'exe_buy'])->name('exe_buy');
 
@@ -66,6 +70,7 @@ route::get('/search',[DisplayController::class,'search'])->name('search');
 
 //詳細検索
 route::get('/filter_search',[DisplayController::class,'filter_search'])->name('filter_search');
+route::get('/filter_search/exe',[DisplayController::class,'exe_filter_search'])->name('exe_filter_search');
 
 //ショップ一覧
 route::get('/shops_list',[DisplayController::class,'shops_list'])->name('shops_list');
@@ -114,6 +119,7 @@ route::post('/users_list',[DisplayController::class,'user_delete'])->name('user_
 
 // いいね
 Route::post('/like', [LikeController::class,'like']);
+Route::post('/user_like',[LikeController::class,'user_like']);
 
 Auth::routes();
 

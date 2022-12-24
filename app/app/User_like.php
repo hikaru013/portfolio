@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class User_like extends Model
 {
     public function user(){
-        return $this->belongsToMany('App\User','User','user_id','id');
+        return $this->belongsTo('App\User');
     }
-    
+
+    public function product(){
+        return $this->belongsTo('App\Product');
+    }
 }

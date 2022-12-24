@@ -14,6 +14,16 @@
 </style>
 
 <main>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <div class="register_product">
         <!-- 左側 -->
             <div class="container" style="padding-top:30px;">
@@ -115,40 +125,40 @@
         <div class="container">
         <div class="form-group">
                 <label for="name">商品名</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{$product->name}}{{ old('name') }}" />
+                <input type="text" class="form-control" id="name" name="name" value="{{$product->name}}" />
               </div>
 
               <div class="form-group">
                 <label for="price">販売金額</label>
-                <input type="text" class="form-control" id="price" name="price" value="{{ $product->price }}{{ old('price') }}" />
+                <input type="text" class="form-control" id="price" name="price" value="{{ $product->price }}" />
               </div>
 
               <div class="form-group">
                 <label for="stock">在庫</label>
-                <input type="text" class="form-control" id="stock" name="stock" value="{{$product->stock}} {{ old('stock') }}" />
+                <input type="text" class="form-control" id="stock" name="stock" value="{{$product->stock }}" />
               </div>
 
               <div class="form-group">
                 <label for="sex">性別</label>
-                <input type="radio" class="" id="sex" name="sex" value="男">メンズ</input>
-                <input type="radio" class="" id="sex" name="sex" value="女">レディース</input>
-                <input type="radio" class="" id="sex" name="sex" value="フリー">フリー</input>
+                <input type="radio" class="" id="sex" name="sex" value="男" {{ old('sex', $product->sex)==="男"?'checked':''}}>メンズ</input>
+                <input type="radio" class="" id="sex" name="sex" value="女" {{ old('sex', $product->sex)==="女"?'checked':''}}>レディース</input>
+                <input type="radio" class="" id="sex" name="sex" value="フリー" {{ old('sex', $product->sex)==="フリー"?'checked':''}}>フリー</input>
               </div>
 
               <div class="form-group">
                 <label for="size">性別</label>
-                <input type="radio" class="" id="size" name="size" value="S">S</input>
-                <input type="radio" class="" id="size" name="size" value="M">M</input>
-                <input type="radio" class="" id="size" name="size" value="L">L</input>
-                <input type="radio" class="" id="size" name="size" value="L">F</input>
+                <input type="radio" class="" id="size" name="size" value="S" {{ old('size', $product->size)==="S"?'checked':''}}>S</input>
+                <input type="radio" class="" id="size" name="size" value="M" {{ old('size', $product->size)==="M"?'checked':''}}>M</input>
+                <input type="radio" class="" id="size" name="size" value="L" {{ old('size', $product->size)==="L"?'checked':''}}>L</input>
+                <input type="radio" class="" id="size" name="size" value="L" {{ old('size', $product->size)==="F"?'checked':''}}>F</input>
               </div>
 
               <div class="form-group">
-                <label for="category">性別</label>
-                <input type="radio" id="cateogry" name="category" value="トップス">トップス</input>
-                <input type="radio" id="cateogry" name="category" value="アウター">アウター</input>
-                <input type="radio" id="cateogry" name="category" value="パンツ">パンツ</input>
-                <input type="radio" id="cateogry" name="category" value="その他">その他</input>
+                <label for="category">カテゴリ</label>
+                <input type="radio" id="cateogry" name="category" value="トップス"{{ old('category', $product->category)==="トップス"?'checked':''}}>トップス</input>
+                <input type="radio" id="cateogry" name="category" value="アウター"{{ old('category', $product->category)==="アウター"?'checked':''}}>アウター</input>
+                <input type="radio" id="cateogry" name="category" value="パンツ"{{ old('category', $product->category)==="パンツ"?'checked':''}}>パンツ</input>
+                <input type="radio" id="cateogry" name="category" value="その他"{{ old('category', $product->category)==="その他"?'checked':''}}>その他</input>
               </div>
         </div>
 </div>
@@ -162,24 +172,24 @@
 </div>
 
 <div class='row justify-content-center'>
-    <button type='submit' class='btn btn-primary w-25 mt-3'>保存</button>
+    <button type='submit'  onclick="return confirm('変更内容を保存してよろしいですか？')"class='btn btn-primary w-25 mt-3'>保存</button>
 </div>
 </form>
 
-<div class ="product_delete">
+<div class ="product_delete row justify-content-center" >
     <form method="post" action="{{ route('product.destroy',['product' => $product->id]) }}">
             @csrf
             @method('delete')
     
-            <button type="submit" class='btn btn-danger'>商品削除</button>
+            <button type="submit"  onclick="return confirm('商品を削除してよろしいですか？')"class='btn btn-danger'>商品削除</button>
     </form>
 </div>
 
 @if(!empty($file[0]))
-<div class="image_delete">
+<div class="image_delete" style="width:100px">
     <form method="post" action="{{route('delete_img',['id' => $product->id])}}">
         @csrf 
-        <button type="submit" class="btn btn danger">画像削除</button>
+        <button type="submit"  onclick="return confirm('登録画像を削除します。')"class="btn btn danger">画像削除</button>
     </form>
 @endif
     </div>

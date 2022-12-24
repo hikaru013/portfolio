@@ -2,7 +2,17 @@
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
+@if ($errors->any())
+	    <div class="alert alert-danger mx-auto" style="width:80%;">
+	        <ul class="text-center">
+	            @foreach ($errors->all() as $error)
+	                <li>{{ $error }}</li>
+	            @endforeach
+	        </ul>
+	    </div>
+	@endif
     <div class="row-lg-12 d-flex">
+    
         <!-- 左側 -->
         <div class="col-lg-8">
             
@@ -60,6 +70,8 @@
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
+                        <option value="3">4</option>
+                        <option value="3">5</option>
                     </select>
                 
                     @auth
@@ -103,12 +115,14 @@
 
                 
             </div>
+                <a href="{{ route('shop_detail',['id' => $product->user->id]) }}">
                 <div class="shop_detail">
   
                     <img src="{{(asset($user_img->path))}}"alt="1">
 
                     <p>{{ $product->user->name }}</p>
                 </div>
+</a>
                 </form>
             
         </div>

@@ -10,9 +10,9 @@
             <div class="card">
 
                 @if(empty($product->file_id))
-                <img src="{{ $default_img->path }}" style="height:250px" class="card-img"/>
+                <img src="{{ asset($default_img->path) }}" style="height:250px" class="card-img"/>
                 @else
-                <img src="{{ $product->file_path}}" style="height:250px" class="card-img">
+                <img src="{{ asset($product->file_path)}}" style="height:250px" class="card-img">
                 @endif
 
                 <div class="card-body">

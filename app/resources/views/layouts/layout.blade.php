@@ -84,7 +84,7 @@
                     <!-- 出品者専用メニュー -->
                     @if($class_id === 2)
                     <li><a href="{{ route ('product.create')}}">出品</a></li>
-                    <li><a href="{{ route('product.index')}}">出品した商品</a></li>
+                    <li><a href="{{ route('on_sale')}}">出品した商品</a></li>
                     <li><a href="{{ route('orderd_by_lists')}}">購入された商品</a></li>
                     @endif
 

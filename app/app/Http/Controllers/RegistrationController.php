@@ -168,7 +168,7 @@ class RegistrationController extends Controller
 
     //商品画像 削除
         public function delete_img($productId){
-            
+
             $file = new File;
             $file->where("product_id",$productId)->delete();
 
@@ -177,14 +177,38 @@ class RegistrationController extends Controller
     // ユーザー情報編集 表示
         public function view_edit_user(){
             $user = Auth::user();
+            $file = File::where("user_id",Auth::user()->id)->exists();
+            // dd($file);
+            
 
-            return view('edit_user_info',[
-                'user' => $user,
-            ]);
+            if($file === true){
+                $file=File::where("user_id",Auth::user()->id)->first();
+            }else{
+                $file=file::where("product_id",0)->first();
+            }
+
+            return view('edit_user_info',compact('user','file')
+            );
         }
 
     // ユーザー情報編集 実行
         public function exe_edit_user(Request $request){
+            $request->validate([
+                'name' => 'required',
+                'birth' =>'required|min:8|max:8',
+                'address' =>'required',
+                'email' => 'required|email:filter',
+                'payment' =>'required',
+                ],
+                ['name.required' => '名前を入力して下さい。',
+                'birth.required'  => '生年月日を入力して下さい。',
+                'birth.integer'  => '生年月日は数値で入力して下さい。例：YYYYMMDD',
+                'birth.size'=>'生年月日は８桁で入力して下さい。例：YYYYMMDD',
+                'address.required' =>'住所を入力して下さい。',
+                'email.required'  => 'メールアドレスを入力して下さい。',
+                'email.email' =>'メールアドレスは正しい形式で入力して下さい。',
+                'payment.required'  => 'お支払い方法を選択して下さい。',        
+                ]);
 
             // Filesテーブルへの保存
             $user_id = Auth::user()->id;
@@ -231,6 +255,14 @@ class RegistrationController extends Controller
     
     // カートに追加する
         public function addCart(request $request){
+            $request->validate([
+                'size' => ['required'],
+                'quantity' =>['required'],
+                
+                ],
+                ['size.required' => 'サイズを選択して下さい。',
+                'quantity.required'  => '注文個数を選択して下さい。',
+                ]);
             $product_table = new Product;
             $file_table = new File;
             
@@ -278,11 +310,36 @@ class RegistrationController extends Controller
         );
         }
 
+    
+    //購入確認
+        public function purchase_confirm(){
+            $user_info = auth::user();
+            $file_table = new File;
+            $defaultimg = $file_table->where('id',0)->first();
+            // dd($defaultimg);
+            $datas =session()->get('session_data');
+            // dd($datas);
+            if (!empty($datas)){
+            $total_price = array_sum(array_column($datas, 'SessionProductPrice'));
+            $shopname = array_column($datas,'SessionShopName');
+            $productimg = array_column($datas,'SessionProductImg');
+            }else{
+                $total_price="";
+                $shopname="";
+                $productimg="";
+            }
+            //  session()->flush('session_data');
+            
+                return view('purchase_confirm'
+                ,compact('user_info','datas','total_price','shopname','productimg','defaultimg')
+            );
+            }
+            
     //購入
         public function exe_buy(){
             $datas = session()->get('session_data');
-           foreach($datas as $data =>$details){
 
+           foreach($datas as $data =>$details){
             //$data=0,1,2... $details=$dataの中身
             $product_id = $details['SessionProductId'];
             $price = $details['SessionProductPrice'];
@@ -303,8 +360,7 @@ class RegistrationController extends Controller
         
             $orderd->save();
            }
-               foreach($details as $detail){
-           }
+          
             session()->forget('session_data');
             return redirect('/');
         }
