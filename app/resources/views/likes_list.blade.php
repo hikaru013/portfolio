@@ -4,7 +4,7 @@
 <div class="page_title">いいね一覧</div>
 
 <div class="liked_products">
-@if(empty($like))
+@if(empty($likes))
     <div class="card text-center">
             <p class="p-5">いいねした商品がありません</p>
     </div>

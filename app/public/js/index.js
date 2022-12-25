@@ -99,7 +99,7 @@ $(document).on('change', ':file', function() {
             url: '/user_like', 
             method: 'POST', 
             data: { 
-                'user_id': likeUserId 
+                'be_liked_id': likeUserId 
             },
             })
             

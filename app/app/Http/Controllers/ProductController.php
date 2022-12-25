@@ -132,7 +132,6 @@ class ProductController extends Controller
     public function show($productId)
     {
         // 商品詳細表示
-
         // 商品画像取得
         $file_table = new File;
         $files = $file_table->where('product_id',$productId)->exists();
@@ -150,8 +149,7 @@ class ProductController extends Controller
         // 商品情報取得
         $product_table = new product;
         $product = $product_table->withcount('product_likes')->find($productId);
-    
-        // dd()
+
         // 出品者画像取得
         $file_id = $product->user->file_id;
         //もし画像が登録されていなければデフォルトイメージ

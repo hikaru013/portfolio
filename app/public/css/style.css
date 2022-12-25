@@ -217,6 +217,11 @@ main{
     margin-bottom:30px;
 }
 
+.likes p{
+    font-size:12px;
+    display:inline-block;
+}
+
 .title{
     display:flex;
 }
@@ -688,7 +693,7 @@ nav .inner ul li a:hover{
         padding:5px;
         border-radius: 0.5rem;
     }
-    .likes p{
+    .like-counter{
         display:inline-block;
         font-size:13px;
     }
@@ -743,4 +748,11 @@ nav .inner ul li a:hover{
     .form-group li div{
         display:flex;
         padding:2px 12px;
+    }
+
+    /* いいねボタン */
+    .size{
+        font-size:20px;
+        cursor:pointer;
+        
     }

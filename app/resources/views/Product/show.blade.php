@@ -78,13 +78,15 @@
                     @if (!$product->isLikedBy(Auth::user()))
                     <!-- 未いいねの際の表示 -->
                         <span class="likes">
-                            <i class="far fa-heart like-toggle" data-product-id="{{ $product->id }}"></i>
+                            <p>いいね</p>
+                            <i class="far fa-heart like-toggle size" data-product-id="{{ $product->id }}"></i>
                         <span class="like-counter">{{$product->product_likes_count}}</span>
                         </span>
                     @else
                     <!-- いいね済の際の表示 -->
                         <span class="likes">
-                            <i class="far fa-heart like-toggle liked" data-product-id="{{ $product->id }}"></i>
+                            <p >いいね</p>
+                            <i class="fas fa-heart like-toggle liked size" data-product-id="{{ $product->id }}"></i>
                         <p class="like-counter">{{$product->product_likes_count}}</p>
                         </span>
                     @endif

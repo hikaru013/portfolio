@@ -73,6 +73,18 @@ class User extends Authenticatable
         return $this->hasManyThrough('App\Orderd_item','App\Product','user_id','product_id','id','id');
     }
 
+    public function followUsers(){
+        return $this->belongsToMany(
+            'App\User','user_likes','be_liked_id','likes_id'
+        );
+    }
+
+    public function follow(){
+        return $this->belongsToMany(
+            'App\User','user_likes','likes_id','be_liked_id'
+        );
+    }
+
     /**
   * パスワードリセット通知の送信
   *

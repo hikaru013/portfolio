@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class User_like extends Model
 {
-    public function user(){
+    public function likes(){
         return $this->belongsTo('App\User');
     }
 
-    public function product(){
-        return $this->belongsTo('App\Product');
+    public function be_liked(){
+        return $this->belongsTo('App\User');
     }
 }

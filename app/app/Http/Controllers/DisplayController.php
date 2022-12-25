@@ -177,7 +177,7 @@ class DisplayController extends Controller
         // 商品情報取得
         $product_table = new product;
         $product = $product_table->withcount('product_likes')->find($productId);
-    
+        
         
         // 出品者画像取得
         $file_id = $product->user->file_id;
@@ -231,7 +231,6 @@ class DisplayController extends Controller
         $user_table = new User;
         $users = $user_table->with('file','products')->find($userId);
         $default_img = file::where('id',0)->first('path');
-        // dd($users);
 
         // ロゴ情報取得
          $file_table = new File;
@@ -250,10 +249,9 @@ class DisplayController extends Controller
                  'files.name as files_name','files.path as file_path')
         ->leftjoin('files', 'files.product_id', '=', 'products.id')  // 第一引数に結合するテーブル名、第二引数に主テーブルの結合キー、第四引数に結合するテーブルの結合キーを記述
         ->where('products.user_id',$userId)->get();
-        // dd($products);
         
-        $user = user::withCount('likes')->find($userId);
-        // dd($user);
+        //いいね数取得
+        $user = user::withCount('be_liked')->find($userId);
 
         return view('shop_detail',
                     ['user'=>$user,
@@ -288,9 +286,9 @@ class DisplayController extends Controller
     //いいね一覧
         public function likes_list(){
 
-            $file_table = new File;
-            $user_table = new User;
-           //デフォルトイメージを取得
+        $file_table = new File;
+        $user_table = new User;
+        //デフォルトイメージを取得
         $default_img = $file_table->where('id',0)->first('path');
         
         // 商品一覧取得

@@ -12,11 +12,29 @@
         <li class="hij list-group-item" style="width:125px;" >ショップ名</li>
         <li class="list-group-item flex-fill" >{{$users->name}}</li>
         </ul>
-        <ul class="list-group list-group-horizontal" style="width:100%">
+        <ul class="list-group list-group-horizontal" style="width:100%; padding-bottom:10px;">
             <li class="hij list-group-item" style="width:125px;" >住所</li>
             <li class="list-group-item  flex-fill" >{{$users->address}}</li>
         </ul>
-        <span>いいね</span>
+
+        @auth
+            @if (!$user->isLikedBy(Auth::user()))
+            <!-- 未いいねの際の表示 -->
+                <span class="likes">
+                    いいね！
+                    <i class="far fa-heart like-toggle size" data-user-id="{{ $user->id }}"></i>
+                    <span class="like-counter">{{$user->be_liked_count}}</span>
+                </span>
+            @else
+            <!-- いいね済の際の表示 -->
+                <span class="likes">
+                    いいね！
+                    <i class="fas fa-heart like-toggle liked size" data-user-id="{{ $user->id }}"></i>
+                    <span class="like-counter">{{$user->be_liked_count}}</span>
+                </span>
+            @endif
+        @endauth
+
         </div>
       
     </div>
