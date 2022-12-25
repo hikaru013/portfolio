@@ -10,7 +10,7 @@
                 @endforeach
               </div>
             @endif
-        <h1 class="h3 mt-2 mb-3 font-weight-normal">ログイン</h1>
+        <h1 class="page_title h3 mt-2 mb-3 font-weight-normal">ログイン</h1>
         <form class="w-25 mx-auto" action="{{ route('login') }}" method="POST">
         @csrf
            	<label for="username" class="sr-only"></label>
@@ -21,7 +21,7 @@
            	<input class="form-control" id="password"
            			type="password" name="password" placeholder="パスワード" 
            			required/>
-           	<input class="btn btn-outline-primary my-1" type="submit" value="ログイン"/>
+           	<input class="btn btn-primary outline my-1" type="submit" value="ログイン"/>
         </form>
 
         <div class="login_command">

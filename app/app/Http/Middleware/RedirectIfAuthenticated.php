@@ -18,7 +18,7 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        // ログイン済であれば、ホーム画面へリダイレクト処理を無効化
+        // ログイン済であれば、ホーム画面へリダイレクト処理を無効化 管理者新規会員登録の為
         // if (Auth::guard($guard)->check()) {
         //     return redirect(RouteServiceProvider::HOME);
         // }

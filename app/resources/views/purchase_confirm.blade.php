@@ -7,7 +7,7 @@
     <span class="d-flex">
         <p style="font-size:20px">注文者情報</p>
         <div class="user_info_button">
-            <a class="float-right btn btn-outline-secondary" href="{{route('view_edit_user')}}" style="text-right;">
+            <a class="btn btn-outline-secondary" href="{{route('view_edit_user')}}" style="">
                 登録情報編集
             </a>
         </div>

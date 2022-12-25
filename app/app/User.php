@@ -38,11 +38,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //ユーザに対してのいいねしているか
     public function likes(){
         return $this->hasMany('App\user_like','likes_id','id');
 
     }
 
+    //ユーザに対してのいいねされているか
     public function be_liked(){
         return $this->hasMany('App\User_like','be_liked_id','id');
     }

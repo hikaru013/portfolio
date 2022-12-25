@@ -189,7 +189,7 @@
 <div class="image_delete" style="width:100px">
     <form method="post" action="{{route('delete_img',['id' => $product->id])}}">
         @csrf 
-        <button type="submit"  onclick="return confirm('登録画像を削除します。')"class="btn btn danger">画像削除</button>
+        <button type="submit"  onclick="return confirm('登録画像を削除します。')"class="btn btn-primary outline">画像削除</button>
     </form>
 @endif
     </div>

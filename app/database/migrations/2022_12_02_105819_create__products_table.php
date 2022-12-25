@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->integer('user_id');
             $table->string('name');
             $table->string('price');
-            $table->integer('stock');
+            $table->unsignedinteger('stock');
             $table->string('category');
             $table->string('size');
             $table->string('sex');

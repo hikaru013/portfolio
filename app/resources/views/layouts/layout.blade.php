@@ -36,9 +36,11 @@
 <body>
     
 <div class="header">
-    <div class="home">
-            <a href="{{route('top')}}" class="btn btn-home">ホーム</a>
-    </div>
+
+<div class="button_line007">
+  <a href="{{route('top')}}" style="font-size:18px;">HOME</a>
+</div>
+  
 
     <!-- 検索フォーム -->
     <div class="search_frame">
@@ -50,15 +52,17 @@
         
         </div>
         
-        <div class="search_detail_frame">
-        <a href="{{route('filter_search')}}" class="search_detail">詳細検索</a> 
-        </div>
+        <div class="button_line004">
+	<a href="{{route('filter_search')}}">詳細検索</a>
+</div>
+        
     </div>
     
     @guest
-    <div id="login"> 
-        <a href="{{ route('login')}}" class="btn btn-login">ログイン</a> 
+    <div class="button_line007"> 
+        <a class="login" style="position:absolute;" href="{{route('login')}}">ログイン</a>
     </div>
+
     @endguest
 
     
@@ -127,7 +131,7 @@
 
     @auth
     <div id="toggle-btn"> 
-        <span class="btn btn-login"><a>マイページ</a></span>
+        <span class="button_line007"><a>マイページ</a></span>
     </div>
     @endauth
     
@@ -143,7 +147,7 @@
         </li>
 
         <li class="footer_link">
-            <a href="#" class="footer_text">詳細検索</a>
+            <a href="{{route('filter_search')}}" class="footer_text">詳細検索</a>
         </li>
 
         <li class="footer_link">

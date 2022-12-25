@@ -14,6 +14,7 @@
 </style>
 
 <main>
+<div class="page_title">出品</div>
 @if ($errors->any())
 	    <div class="alert alert-danger">
 	        <ul>

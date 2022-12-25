@@ -150,8 +150,14 @@ class ProductController extends Controller
         $product_table = new product;
         $product = $product_table->withcount('product_likes')->find($productId);
 
+        if(!isset($product->user)){
+            abort(404);
+        }
+        // dd($product_table->user);
+
         // 出品者画像取得
         $file_id = $product->user->file_id;
+        
         //もし画像が登録されていなければデフォルトイメージ
         if(empty($file_id)){
             $user_img = $file_table->where('id','0')->first();

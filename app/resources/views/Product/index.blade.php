@@ -1,8 +1,7 @@
 @extends('layouts.layout')
 @section('content')
-<div class="title">
-        <div class="list_title"><span>商品一覧</span></div>
-        </div>
+<div class="page_title">商品一覧</div>
+
     <div class="row">
         @foreach ($products->unique('id') as $product)
         

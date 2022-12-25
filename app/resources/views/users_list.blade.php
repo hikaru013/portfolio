@@ -46,32 +46,6 @@
 
   </table>
 
-@foreach($users as $user)
-<div class="container d-flex"></div>
-<div class="card">
-    <div class="parent">
-        <div class="div1">ID:</div>
-        <div class="div2">{{$user->id}}</div>
-        <div class="div3">種別：</div>
-        <div class="div4">
-            @if($user->class_id === 1)
-            購入者
-            @endif
-        
-            @if($user->class_id === 2)
-            出品者
-            @endif
-        
-            @if($user->class_id === 3)
-            管理者
-            @endif</div>
-        <div class="div5">名前：</div>
-        <div class="div6">{{$user->name}}</div>
-        <div class="div7">編集</div>
-        <div class="div8">削除</div>
-    </div>
-    </div>
-@endforeach
 </div>
 
 

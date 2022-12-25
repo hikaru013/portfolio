@@ -2,19 +2,15 @@
 @extends('layouts.layout')
 
 @section('content')
-    <!-- <div class="user_id">
-    @if( Auth::check() )
-    <p>ログイン中のユーザーのclass_id：{{ Auth::user()->class_id }}</p>
-    <p>ログイン中のユーザー名：{{ Auth::user()->name }}
-    @endif -->
     
     
     <!-- 商品 -->
-    <div class="title">
-        <div class="list_title"><span>人気商品一覧</span></div>
-        <div class="list_more"><span><a href="{{ route('product.index')}}">もっと見る</a></span></div>
+    <div class="page_title">人気商品一覧</div>
+    <div class="button021">
+	<a href="{{route('product.index')}}">+MORE</a>
     </div>
-    <div class="row">
+
+    <div class="row" style="padding-bottom: 100px;">
         @foreach ($products->unique('id') as $product)
             @if($loop->index === 8)
             @php break; @endphp
@@ -39,12 +35,12 @@
     </div>
 
     <!-- ショップ -->
-    <div class="title">
-        <div class="list_title"><span>人気ショップ一覧</span></div>
-        <div class="list_more"><span><a href="{{ route('shops_list')}}">もっと見る</a></span></div>
-    </div>
+    <div class="page_title">人気ショップ一覧</div>
+        <div class="button021">
+            <a href="{{route('shops_list')}}">+MORE</a>
+        </div>
 
-    <div class="row">
+    <div class="row" style="padding-bottom: 100px;">
         @foreach ($users as $user)
             @if($loop->index === 8)
             @php break; @endphp
@@ -68,10 +64,11 @@
 
     @auth
         <div class="likeed_products">
-            <div class="title">
-                <div class="list_title"><span>いいね一覧</span></div>
-                <div class="list_more"><span><a href="{{ route('likes_list')}}">もっと見る</a></span></div>
-            </div>
+        <div class="page_title">いいねした商品</div>
+        <div class="button021">
+            <a href="{{route('likes_list')}}">+MORE</a>
+        </div>
+            
             <div class="row">
         @foreach ($likes->unique('id') as $like)
         @if($loop->index === 8)

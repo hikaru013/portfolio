@@ -1,50 +1,18 @@
-/* 
-
-.btn {
-    white-space: normal;
-    }
-    
-    a {
-        color: #333;
-    }
-    a:hover {
-        opacity: 0.8;
-        text-decoration: none;
-    }
-    .tel a {
-        text-decoration: underline;        
-    }
-    
-
-    .mod-navbar {
-        position: relative;
-        padding: 1rem 0;
-    }
-    
-
-    .cate-label {
-        top:0.5em;
-        left: 1em;
-        background: rgba(255, 255, 255, 0.8);
-    }
-    
-
-    .sns-nav img{
-        width: 36px;
-    }
-
-    .totop {
-        border: 2px solid #02A7C3;
-        top: 1rem;
-        right: 0;
-    } */
 
 html {
   /* -webkit-box-sizing: border-box; */
   /* box-sizing: border-box; */
   font-size: 16px;
 }
+a{
+    color:#516873;
+}
 
+a:hover{
+    color:#487d8e;
+    transition:0.3s;
+    opacity: 0.6;
+}
 body {
     font-family: sans-serif;
     }
@@ -61,6 +29,122 @@ body {
   margin-bottom:30px;
 }
 
+/* LINE007 */
+.button_line007 a {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 220px;
+    padding: 10px 25px;
+    color: #313131;
+    transition: 0.3s ease-in-out;
+    font-weight: 600;
+    background: #eee;
+    cursor: pointer;
+}
+.button_line007 a:hover {
+    background: #ebfcfe;
+    color: #d3d3d3;
+}
+.login,
+#toggle-btn span {
+    position: absolute;
+    display: block;
+    right: 90px;
+    top: 40px;
+    width: 137.45px;
+    background-color: #808080;
+    transition: all 0.5s;
+}
+#toggle-btn span:hover{
+    background: #ebfcfe;
+    color: #d3d3d3;
+}
+
+.button_line007 a:before, .button_line007 a:after {
+  box-sizing: inherit;
+  content: "";
+  position: absolute;
+  border: 2px solid transparent;
+  width: 0;
+  height: 0;
+}
+.button_line007 a:before {
+  top: 0;
+  left: 0;
+}
+.button_line007 a:after {
+  bottom: 0;
+  right: 0;
+}
+.button_line007 a:hover:before, .button_line007 a:hover:after {
+  width: 100%;
+  height: 100%;
+}
+.button_line007 a:hover:before {
+  border-top-color: #808080;
+  border-right-color:#808080;
+  transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
+}
+.button_line007 a:hover:after {
+  border-bottom-color: #808080;
+  border-left-color: #808080;
+  transition: border-color 0s ease-out 0.2s, width 0.15s ease-out 0.2s, height 0.15s ease-out 0.3s;
+}
+
+/* 021 home画面のmore*/
+
+.button021{
+    display:flex;
+    margin: 0 0 0 auto;
+}
+.button021 a {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 0 0 auto;
+    max-width: 240px;
+    padding: 5px 15px;
+    color: #313131;
+    transition: 0.3s ease-in-out;
+    font-weight: 900;
+}
+
+.button021 a::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(105,105,105,0.2);
+  transition: all 0.3s;
+}
+.button021 a:hover::before {
+  opacity: 0;
+  transform: scale(0.4, 0.4);
+}
+.button021 a::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  border: 2px solid rgb(105,105,105, .4);
+  transform: scale(1.2, 1.2);
+}
+.button021 a:hover::after {
+  opacity: 1;
+  transform: scale(1, 1);
+}
 .home{
     background-color: #b0c4de;
     font-size: 1.6rem;
@@ -152,49 +236,76 @@ a.search_detail:hover {
     outline:none;
 }
 #sbtn2:hover{
-    color:#7fbfff;
+    color:#487d8e;
+}
+.button_line004{
+    padding:2px;
+    background-color:rgba(213,209,207,0.3);
+    margin-left:15px;
+    margin-top:15px;
+}
+.button_line004 a {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 200px;
+    /* padding: 5px 15px; */
+    color: #313131;
+    transition: 0.5s ease-in-out;
+    font-weight: 600;
+    white-space:nowrap;
+    text-decoration:none;
+}
+.button_line004 a:before,
+.button_line004 a:after {
+	content: '';
+	width: 18px;
+	height: 18px;
+	border-color: #487d8e;
+	box-sizing: border-box;
+	border-style :solid;
+	display: block;
+	position: absolute;
+	transition: all 0.3s ease-in-out;
+}
+.button_line004 a:before {
+	top: -6px;
+	left: -6px;
+	border-width: 2px 0 0 2px;
+	z-index: 5;
+}
+.button_line004 a:after {
+	bottom: -6px;
+	right: -6px;
+	border-width: 0 2px 2px 0;
+}
+.button_line004 a:hover:before,
+.button_line004 a:hover:after {
+	width: calc(100% + 12px);
+	height: calc(100% + 12px);
+	border-color: #839fa7;
+}
+.button_line004 a:hover {
+	color: #fff;
+	background-color: #487d8e;
+	border-color: #839fa7;
 }
 
-#login{
+
+/* #login{
     padding: 10px 0 0;
-    /* margin-left:auto; */
-}
+    margin-left:auto;
+} */
 
-.btn-login,
-a.btn-login {
-    background-color: #b0c4de;
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1.5;
-    position: absolute;
-    right:90px;
-    top:40px;
-    display: inline-block;
-    padding: 0.5rem 2rem;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
-    text-align: center;
-    vertical-align: middle;
-    text-decoration: none;
-    letter-spacing: 0.1em;
-    color: #fff;
-    border-radius: 0.5rem;
-    border-color: #808080;
-    border-style: solid;
-    border-width:2px;
-}
 
-.btn-login:hover,
+/* .btn-login:hover,
 a.btn-login:hover {
     color: #212529;
     background-color: #778899;
 
-}
+} */
 
 /* header css ここまで */
 
@@ -405,21 +516,6 @@ nav .inner ul li a:hover{
     background-color:#e4e4e4;
 }
 
-#toggle-btn span{
-    position: absolute;
-    display: block;
-    right: 90px;
-    top: 40px;
-    width: 137.45px;
-    height: 44px;
-    background-color: #808080;
-    transition: all 0.5s;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-color:#b0c4de;
-}
-
 #toggle-btn span a{
     text-align: center;
     margin: -2px;
@@ -430,7 +526,7 @@ nav .inner ul li a:hover{
 #mask{
     display:none;
     transition:all 0.5s;
-    z-index:1;
+    z-index:10;
 }
 
 .open nav{
@@ -462,10 +558,13 @@ nav .inner ul li a:hover{
 }
 
 .page_title{
+    margin-bottom:15px;
     text-align:center;
-    font-size:25px;
+    font-size:18px;
     padding:10px 0;
-    background-color:azure;
+    background:rgba(220,220,220,0.6);
+    border-radius: 1.25rem;
+    font-weight:700;
 }
 
 .title_frame{
@@ -725,10 +824,10 @@ nav .inner ul li a:hover{
         width:20%;
     }
 
+    /* 購入確認 */
     .user_info_button{
-        position: absolute;
-        right: 350px;
-        top: 250px;
+        position: relative;
+        left: 730px;
     }
 
         /* 詳細検索画面 */
@@ -756,3 +855,37 @@ nav .inner ul li a:hover{
         cursor:pointer;
         
     }
+
+    .btn-primary {
+        background: #73939D;
+        color: white;
+        border-color:#73939D;
+    }
+    
+    .btn-primary:hover, .btn-primary:focus, 
+    .btn-primary:active, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary:active.focus,
+    .btn-primary.active, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary.active.focus,
+    .open > .dropdown-toggle.btn-primary, 
+    .open > .dropdown-toggle.btn-primary:hover,
+    .open > .dropdown-toggle.btn-primary:focus, 
+    .open > .dropdown-toggle.btn-primary.focus,
+    .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover,
+    .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus,
+    .btn-primary.disabled.focus, .btn-primary[disabled].focus, fieldset[disabled] .btn-primary.focus {
+    background: #5b7682;
+    color: white;
+}
+
+.btn-primary.outline {
+    border-color:  #73939D;
+    color: #73939D;
+}
+
+.btn.outline {
+    background: none;
+}
+
+.btn.outline:hover {
+    background: #5b7682;
+    color: white;
+}

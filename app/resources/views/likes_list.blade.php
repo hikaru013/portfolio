@@ -4,12 +4,13 @@
 <div class="page_title">いいね一覧</div>
 
 <div class="liked_products">
-@if(empty($likes))
+@if($likes->isempty())
     <div class="card text-center">
             <p class="p-5">いいねした商品がありません</p>
     </div>
 
 @else
+
     <div class="row">
         @foreach ($likes->unique('id') as $like)
             @if($loop->index === 8)

@@ -356,8 +356,8 @@ class RegistrationController extends Controller
             $orderd->orderd_at = $orderd_at;
 
             // 在庫を減らす
+            $a=product::find($product_id);
             $product_stock = product::find($product_id)->decrement('stock',$quantity);
-        
             $orderd->save();
            }
           

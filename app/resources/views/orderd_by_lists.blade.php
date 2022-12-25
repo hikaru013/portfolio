@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 @section('content')
-<div class="page_title">購入履歴</div>
+<div class="page_title">販売履歴</div>
 
 <!-- 購入した商品がない場合 -->
 @if($sold_products->isempty())
@@ -24,7 +24,7 @@
             @foreach($sold->product->file as $file)
             <!-- ひとつ目の画像のみ取得 -->
             @if($loop->first)
-            <img class="card-img-top" style="width:50%" src="{{$file->path}}">
+            <img class="card-img-top" style="width:80%" src="{{$file->path}}">
             @endif
             
             @endforeach

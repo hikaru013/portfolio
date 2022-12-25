@@ -25,7 +25,7 @@
                 @if($loop->first == true)
                     <a data-lightbox="group" href="{{asset($file->path)}}">
                     @else<a data-lightbox="demo" href="{{asset($file->path)}}">
-                <li><img src="{{asset($file->path)}}" class="card_img_top" style="width:100px; height:100px;"alt="2"></li>
+                <li><img src="{{asset($file->path)}}" class="card_img_top" style="width:130px; height:130px;"alt="2"></li>
                 @endif</a>
                 @endforeach
             </ul>
@@ -105,7 +105,7 @@
                 <input type="hidden" name="price" value="{{$product->price}}">
 
                 @auth
-                <input type="submit"  class="btn btn-outline-warning" value="カートに入れる"></button>
+                <input type="submit"  class="btn btn-primary outline" value="カートに入れる"></button>
                     <button type="button" class="btn btn-outline-info">購入</button>
                 </div>
                 @endauth

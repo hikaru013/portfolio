@@ -45,26 +45,6 @@ class DisplayController extends Controller
         return view('home',compact('default_img','products','users','likes'));
         }
 
-    //商品一覧
-        public function products_list(){
-
-            $file_table = new File;
-            $user_table = new User;
-            $product_table = new Product;
-            $default_img = $file_table->where('id',0)->first('path');
-            
-            // 商品一覧取得
-            $products = $product_table;
-            $products = Product::select('products.id', 'products.name','products.price', 'files.id as file_id',
-                                        'files.name as files_name','files.path as file_path')
-            ->leftjoin('files', 'files.product_id', '=', 'products.id')  // 第一引数に結合するテーブル名、第二引数に主テーブルの結合キー、第四引数に結合するテーブルの結合キーを記述
-            ->paginate(8);
-
-            return view('products_list',[
-                'products'=>$products,
-                'default_img'=>$default_img,
-            ]);
-        }
     //出品商品 表示(ResourceControllerとは別)
         public function on_sale(){
 
@@ -117,7 +97,6 @@ class DisplayController extends Controller
         }
     //詳細検索実行
         public function exe_filter_search(request $request){
-            // dd($request->all());
 
             $file_table = new File;
             $user_table = new User;
@@ -135,7 +114,7 @@ class DisplayController extends Controller
             ->select('products.id', 'products.name','products.price', 'files.id as file_id',
                     'files.name as files_name','files.path as file_path',
                     'products.size','products.category','products.sex')
-            ->leftjoin('files', 'files.product_id', '=', 'products.id')  // 第一引数に結合するテーブル名、第二引数に主テーブルの結合キー、第四引数に結合するテーブルの結合キーを記述
+            ->leftjoin('files', 'files.product_id', '=', 'products.id') 
             ->where('products.name','LIKE',"%$word%");
             
             if(!empty($category)){
@@ -178,7 +157,6 @@ class DisplayController extends Controller
         $product_table = new product;
         $product = $product_table->withcount('product_likes')->find($productId);
         
-        
         // 出品者画像取得
         $file_id = $product->user->file_id;
 
@@ -212,24 +190,25 @@ class DisplayController extends Controller
         ->select('products.id', 'products.name','products.price', 'files.id as file_id',// 主となるテーブル名
                  'files.name as files_name','files.path as file_path')
         ->leftjoin('files', 'files.product_id', '=', 'products.id')->paginate(8);  // 第一引数に結合するテーブル名、第二引数に主テーブルの結合キー、第四引数に結合するテーブルの結合キーを記述
-
        
-
         return view('shops_list',[
             'products'=>$products,
             'default_img'=>$default_img,
             'users' =>$users,
         ]);
-
-        // return view('shops_list',compact('users'));
         }
 
     //ショップ詳細
         public function shop_detail($userId){
-
+           
         // ショップ情報と出品した商品情報取得
         $user_table = new User;
         $users = $user_table->with('file','products')->find($userId);
+
+        if(is_null($users)){
+            abort(404);
+        }
+
         $default_img = file::where('id',0)->first('path');
 
         // ロゴ情報取得
@@ -243,7 +222,6 @@ class DisplayController extends Controller
         }
         
         //商品画像取得
-
         $products = DB::table('products')  // 主となるテーブル名
         ->select('products.id','products.user_id', 'products.name','products.price','files.id as file_id',
                  'files.name as files_name','files.path as file_path')
@@ -279,7 +257,6 @@ class DisplayController extends Controller
                 $sold_item = orderd_item::where('product_id',$product_id)->get();
                 
             }
-            // dd($product_id,$sold_products,$products);
             return view('orderd_by_lists',compact('sold_products'));
         }
 
@@ -331,9 +308,11 @@ class DisplayController extends Controller
 
     // 管理者メニュー
         public function admin_menu(){
-            
 
+            if(auth::user()->class_id === 3){
             return view('admin_menu');
+        }else{
+            return redirect ('/');}
         }
 
     // ユーザー一覧

@@ -1,6 +1,7 @@
 @extends('layouts.layout')
-
 @section('content')
+
+@if(auth()->guest()||auth::user()->class_id===3)
 
   <div class="container">
 
@@ -29,7 +30,7 @@
                 @auth
                 @php $class_id=Auth::User()->class_id;@endphp
                 @if($class_id === 3)
-                  <input type="radio" class="" id="class_id" name="class_id" value="3">管理者</input>
+                  <input type="radio" class="" id="class_id" name="class_id" value="3"><span style="font-size:16px">管理者</span></input>
                 @endif
                 @endauth
 
@@ -92,4 +93,5 @@
       </div>
     </div>
   </div>
+@endif
 @endsection

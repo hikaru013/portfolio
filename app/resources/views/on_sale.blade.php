@@ -1,12 +1,11 @@
 @extends('layouts.layout')
 @section('content')
-<div class="title">
-        <div class="list_title"><span>出品商品一覧</span></div>
-        </div>
+<div class="page_title">出品した商品</div>
+
     <div class="row">
         @foreach ($products->unique('id') as $product)
         
-        <a href="{{ route('product.show',['product' => $product->id]) }}" class="col-lg-3 col-md-3">
+        <a href="{{ route('product.show',['product' => $product->id]) }}" class="col-lg-3">
             <div class="card">
 
                 @if(empty($product->file_id))
